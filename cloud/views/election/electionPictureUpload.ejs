@@ -1,0 +1,71 @@
+<script>
+	var fileInput = document.getElementById('inputProfileImage');
+	var submitButton = document.getElementById('submitCustomUserPicture');
+	var fileDisplayArea = document.getElementById('fileDisplayArea');
+	var uploadModal = document.getElementById('addPictureModal');
+
+
+	fileInput.addEventListener('change', function(e) {
+		var file = fileInput.files[0];
+		var imageType = /image.*/;
+
+		if (file.type.match(imageType)) {
+			var reader = new FileReader();
+
+			reader.onload = function(e) {
+				fileDisplayArea.innerHTML = "";
+
+				var img = new Image();
+				img.src = reader.result;
+				img.id = img.id + "uploadedProfilePicImgOnDisplay";
+				img.className = img.className + " img img-responsive";
+
+				fileDisplayArea.appendChild(img);
+			}
+
+			reader.readAsDataURL(file);	
+		} else {
+			fileDisplayArea.innerHTML = "File not supported!"
+		}
+	});
+</script>
+<script>
+	var fileInput1 = document.getElementById('inputBackgroundImage');
+	var submitButton1 = document.getElementById('submitCustomBackgroundPicture');
+	var fileDisplayArea2 = document.getElementById('fileDisplayArea2');
+	var uploadModal1 = document.getElementById('addBackgroundPictureModal');
+
+
+	fileInput1.addEventListener('change', function(e) {
+		var file1 = fileInput1.files[0];
+		var imageType = /image.*/;
+
+		if (file1.type.match(imageType)) {
+			var reader = new FileReader();
+
+			reader.onload = function(e) {
+				fileDisplayArea2.innerHTML = "";
+
+				var img = new Image();
+				img.src = reader.result;
+				img.id = img.id + "uploadedImgOnDisplay";
+				img.className = img.className + " img img-responsive";
+
+				fileDisplayArea2.appendChild(img);
+			}
+
+			reader.readAsDataURL(file1);	
+		} else {
+			fileDisplayArea2.innerHTML = "File not supported!"
+		}
+	});
+</script>
+<script>
+$(document).ready(function(){
+	$("#deleteBackgroundPicture").click(function(){
+		$.post("/sphere/<%= sphereobjectid %>/election/<%= electionobjectid %>/backgroundpicture/remove", {'pageObjectID': '<%= electionobjectid %>', "pageType": "election"}, function(){
+			location.reload(true);
+		});	
+	});
+});
+</script>

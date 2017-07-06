@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+   <!--[if lt IE 7]> <html class="ie ie6 lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+   <!--[if IE 7]>    <html class="ie ie7 lt-ie9 lt-ie8"        lang="en"> <![endif]-->
+   <!--[if IE 8]>    <html class="ie ie8 lt-ie9"               lang="en"> <![endif]-->
+   <!--[if IE 9]>    <html class="ie ie9"                      lang="en"> <![endif]-->
+   <!--[if !IE]><!-->
+   <html lang="en" class="no-ie">
+   <!--<![endif]-->
+   
+   <head>
+      <!-- Meta-->
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+      <meta name="description" content="<%= nominationname %> is a nomination within the election <%= electionname %> hosted within the sphere <%= spherename %>.">
+      <meta name="keywords" content="vote, election, group, sphere, nominate, decide">
+      <meta name="author" content="">
+      <meta property="og:url" content="https://www.represent.xyz/sphere/<%= sphereobjectid %>/election/<%= electionobjectid %>/nomination/<%= nominationobjectid %>">
+      <meta property="og:title" content="<%= nominationname %>">
+      <meta property="og:description" content="<%= nominationdescription %>">
+      <meta property="og:site_name" content="www.represent.xyz">
+      <meta property="og:image" content="<%= nominationprofilepicture %>">
+      <meta property="fb:app_id" content="<%= appid %>">
+      <meta property="og:type" content="represent_xyz:nomination">
+      <!-- Desktop Browsers -->
+      <link rel="shortcut icon" type="image/x-icon" href="../../../../../assets/icons/favicon.ico" />
+      
+      <!-- Android: Chrome M39 and up-->
+      <link rel="manifest" href="../../../../../assets/icons/manifest.json">
+      <!-- Android: Chrome M31 and up, ignored if manifest is present-->
+      <meta name="mobile-web-app-capable" content="yes">
+      <link rel="icon" sizes="192x192" href="../../../../../assets/icons/icon-192x192.png">
+      <!-- iOS -->
+      <meta name="apple-mobile-web-app-capable" content="yes">
+      <meta name="apple-mobile-web-app-title" content="Represent.xyz">
+      
+      <link rel="apple-touch-icon" sizes="180x180" href="../../../../../assets/icons/apple-touch-icon-180x180-precomposed.png">
+      <link href="../../../../../assets/icons/apple-touch-icon-152x152-precomposed.png" sizes="152x152" rel="apple-touch-icon">
+      <link href="../../../../../assets/icons/apple-touch-icon-144x144-precomposed.png" sizes="144x144" rel="apple-touch-icon">
+      <link href="../../../../../assets/icons/apple-touch-icon-120x120-precomposed.png" sizes="120x120" rel="apple-touch-icon">
+      <link href="../../../../../assets/icons/apple-touch-icon-114x114-precomposed.png" sizes="114x114" rel="apple-touch-icon">
+      <link href="../../../../../assets/icons/apple-touch-icon-76x76-precomposed.png" sizes="76x76" rel="apple-touch-icon">
+      <link href="../../../../../assets/icons/apple-touch-icon-72x72-precomposed.png" sizes="72x72" rel="apple-touch-icon">
+      <link href="../../../../../assets/icons/apple-touch-icon-60x60-precomposed.png" sizes="60x60" rel="apple-touch-icon">
+      <link href="../../../../../assets/icons/apple-touch-icon-57x57-precomposed.png" sizes="57x57" rel="apple-touch-icon">
+      <link href="../../../../../assets/icons/apple-touch-icon-precomposed.png" rel="apple-touch-icon">
+      
+      <!-- Windows 8 and IE 11 -->
+      <meta name="msapplication-config" content="../../../../../assets/icons/browserconfig.xml" />
+      
+      <!-- Windows -->
+      <meta name="application-name" content="Represent.xyz" />
+      <meta name="msapplication-tooltip" content="Let's Make Decisions Together!" />
+      <meta name="msapplication-window" content="width=1024;height=768" />
+      <meta name="msapplication-navbutton-color" content="#007EFF" />
+      <meta name="msapplication-starturl" content="../../../../../" />
+      
+      <title>Represent.xyz | <%= nominationname %></title>
+      <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+      <!--[if lt IE 9]><script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script><script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script><![endif]-->
+      <!-- Bootstrap CSS-->
+      <link rel="stylesheet" href="../../../../../admin/app/css/bootstrap.css">
+      <!-- Vendor CSS-->
+      <link rel="stylesheet" href="../../../../../admin/app/vendor/animo/animateanimo.css">
+      <link rel="stylesheet" href="../../../../../admin/app/vendor/fontawesome/css/font-awesome.min.css">
+      <!-- START Page Custom CSS-->
+      <style>
+      #logorepred {
+        color: #ed0027;
+      }
+      #logoresblack {
+        color: #333333;
+      }
+      #logoentblue {
+        color: #007eff;
+      }
+      .brand-logo {
+        font-size: 28pt;
+      }
+      </style>
+      <!-- END Page Custom CSS-->
+      <!-- App CSS-->
+      <link rel="stylesheet" href="../../../../../admin/app/css/app.css">
+      <style>
+         #nominationDescriptionEditArea {
+         	-webkit-box-sizing: border-box;
+         	-moz-box-sizing: border-box;
+         	box-sizing: border-box;
+         
+         	width: 100%;
+         	max-width: 100%;
+         }
+      </style>
+      <!-- Vendor CSS-->
+      <link rel="stylesheet" href="../../../../../admin/app/vendor/blueimp-gallery/css/blueimp-gallery.min.css">
+      <link href="../../../../../admin/app/css/cropProfile.css" rel="stylesheet">
+      <link href="../../../../../admin/app/css/cropper.css" rel="stylesheet">
+      <!-- JavaScript Files -->
+      <!-- Modernizr JS Script-->
+      <!-- <script src="../admin/app/vendor/modernizr/modernizr.js" type="application/javascript"></script> -->
+      <!-- JQuery -->
+      <script src="../../../../../admin/app/vendor/jquery/jquery.min.js"></script>
+      <script src="../../../../../admin/app/vendor/countdown/jquery.countdown.js"></script>
+      <!-- Main vendor Scripts -->
+      <script src="../../../../../admin/app/vendor/bootstrap/js/bootstrap.min.js"></script>
+      <script  src="../../../../../admin/app/vendor/animo/animo.min.js"></script>
+      <!-- Cropper -->
+      <script src="../../../../../admin/app/js/cropper.js"></script>
+      <!-- Parse Init -->
+      <script src="//www.parsecdn.com/js/parse-1.3.3.min.js"></script>
+      <script src="../../../../../admin/app/js/parseInit.js"></script>
+      <% include /cropNominationProfilePicture %>
+      <% include /cropNominationBackgroundPicture %>
+   </head>
+<body class="">
+   <div id="fb-root"></div>
+   <% include /settings %>
+   <% if(commentsonnominationallowed) { 
+    if(ismembercurrentwithsubscription) { %>
+   <script>
+   (function(d, s, id) {
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) return;
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=<%= appid %>&version=v2.3";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+   </script>
+   <% }
+   } %>
+   <div class="modal fade" id="facebookButtonsModal" tabindex="-1" role="dialog" aria-labelledby="facebookButtonsModal" aria-hidden="true">
+     <div class="modal-dialog">
+       <div class="modal-content">
+         <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+           <h4 class="modal-title">Facebook Buttons</h4>
+         </div>
+         <div class="modal-body" id="castvoteform">
+            <h3>Promote <%= nominationname %></h3>
+            <div class="fb-like" data-layout="standard" data-action="like" data-show-faces="false" data-share="true"></div>
+            <br>
+            <br>
+         </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         </div>
+         </div>
+       </div><!-- /.modal-content -->
+     </div><!-- /.modal-dialog -->
+   </div><!-- /.modal -->
+    <%
+         if((electionadmin == puserid) || (nominationadmin == puserid)) { 
+   %>
+            <% include /editNominationModals %>
+   <%      } %>
+   <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+       <div class="slides"></div>
+       <h3 class="title hidden"></h3>
+       <a class="prev">‹</a>
+       <a class="next">›</a>
+       <a class="close">
+          <%
+               if((sphereadmin == true) || (electionadmin == puserid) || (nominationadmin == puserid)) { 
+                  if(nominationpictures.length > 1) { %>
+                    <button style="margin-right: 16px;" class="btn btn-sm btn-inverse" id="makeProfileButton">Make Profile</button>
+              <%    }
+              %>
+                  <button style="margin-right: 16px;" class="btn btn-sm btn-inverse" data-dismiss="modal" data-target="#addPictureModal" data-toggle="modal" id="addPictureModalLaunchButton">Add</button>
+                  <button style="margin-right: 16px;" class="btn btn-sm btn-inverse" id="removePictureButton">Remove</button>
+         <%
+               }
+           
+         %>
+          <span>×</span>
+       </a>
+       <a class="play-pause"></a>
+       <ol class="indicator"></ol>
+   </div>
+   <% if(ismembercurrentwithsubscription) { %>
+   <div class="modal fade" id="castVoteModal" tabindex="-1" role="dialog" aria-labelledby="castVoteModal" aria-hidden="true">
+     <div class="modal-dialog" id="castvotedialog">
+       <div class="modal-content">
+         <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+           <h4 class="modal-title"><%= nominationname %></h4>
+         </div>
+         <div class="modal-body">
+            <% if((totaluservotescastinelection >= electionvotesallowed) && ((voteoreval == "vote") || (voteoreval == "allocation"))) { %>
+              <% include /takebackvotebutton %>
+           <% } else {
+                 if((voteoreval == "vote") || (voteoreval == "allocation")) {
+                    if(voteoreval == "vote"){
+                       var allowancetext = "Everyone in this election is allowed "+electionvotesallowed+" votes";
+                       var alreadyallocatedtext = "You have already cast the following votes:";
+                       var castorallocatetext = "Cast";
+                       var votesorallocatedtext = "Votes for";
+                       var alreadyspenttext = "You have cast your vote!"
+                    } else if(voteoreval == "allocation") {
+                       var allowancetext = "Everyone in this election is given a budget of $"+electionvotesallowed;
+                       var alreadyallocatedtext = "You have already made the following $"+totaluservotescastinelection+" of allocations:";
+                       var castorallocatetext = "Allocate $";
+                       var votesorallocatedtext = "to";
+                       var alreadyspenttext = "You have made your allocations!"
+                    }
+                    if((electionvotesallowed - totaluservotescastinelection) >= 0) {
+                       if(electionvotesallowed > 1) {
+                          var voterangemax = (electionvotesallowed - totaluservotescastinelection);
+              %>           
+                         <h3><%= allowancetext %></h3>
+                         <% if(totaluservotescastinelection > 0) { %>
+                         <span><%= alreadyallocatedtext %></span>
+                         <ul style="list-style-type: none; padding-left: 0px;">
+                            <% for(var i=0; i < recordofuservotescastinelection.length; i++) {
+                             var recorditem = recordofuservotescastinelection[i];
+                             var pagenameofrecorditem = recorditem['pageName'];
+                             var nominationobjectidofrecorditem = recorditem['nominationObjectID'];
+                             var votesofrecorditem = recorditem['votes'];
+                             %>
+                             <li><a href="/sphere/<%= sphereobjectid %>/election/<%= electionobjectid %>/nomination/<%= nominationobjectidofrecorditem %>"><%= pagenameofrecorditem %></a><span> - <%= votesofrecorditem %></span></li>
+                             <% } %>
+                         </ul>
+                         <% } %>
+                         <form style="font-size: 24pt;" method="POST" action="/sphere/<%= sphereobjectid %>/election/<%= electionobjectid %>/nomination/<%= nominationobjectid %>/castvote">
+                         <span><%= castorallocatetext %></span><input style="font-size: 24pt;" type="number" name="votesCast" id="numberinputeval" value="1" min="1" max="<%= voterangemax %>" value="1"><span><%= votesorallocatedtext %></span> <%= nominationname %>
+                         <br>
+                         <br>
+                         <input type="submit" id="castvotebutton" class="btn btn-lg btn-success" value="Cast Vote">
+                         </form>
+                         <br>
+                     <% } else {
+                     %>
+                        <form method="POST" action="/sphere/<%= sphereobjectid %>/election/<%= electionobjectid %>/nomination/<%= nominationobjectid %>/castvote">
+                           <input class="hidden" type="number" id="votesToCast" name="votesCast" value="1" min="1" max="1">
+                           <br>
+                           <input type="submit" id="castvotebutton" class="btn btn-lg btn-success" value="Cast Vote">
+                        </form>
+                     <%
+                     } 
+                  } else {
+                     %>
+                     <h3><%= alreadyspenttext %></h3>
+                     <%
+                  }
+                 } else {
+                    if(votealreadycast === true) { %>
+                      <% include /takebackvotebutton %>
+                <%  } else {
+                    var sliderpresetvalue = Math.floor(evalmaximum / 3);
+                    %>
+                    <form method="POST" action="/sphere/<%= sphereobjectid %>/election/<%= electionobjectid %>/nomination/<%= nominationobjectid %>/castvote">
+                       <label for="numberinputeval">Evaluation: </label>
+                       <input style="font-size: 24pt;" type="number" name="votesCast" id="numberinputeval" value="" min="0" max="<%= evalmaximum %>">
+                       <input type="range" name="slider-fill" id="slider-fill" value="" min="0" max="<%= evalmaximum %>" data-highlight="true">
+                        <br>
+                        <br>
+                       <input type="submit" id="castvotebutton" class="btn btn-lg btn-success" value="Evaluate">
+                    </form>
+                 <% }
+               } 
+         }%>
+        </div>
+         <div class="modal-footer">
+            <% if (nominationvoterecord.length > 0) { %>
+           <button type="button" class="btn btn-default pull-left" data-dismiss="modal" data-toggle="modal" data-target="#showRecordModal">Show Record</button>
+           <% } %>
+           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         </div>
+         </div>
+       </div><!-- /.modal-content -->
+     </div><!-- /.modal-dialog -->
+   </div><!-- /.modal -->
+<% } else { %>
+<div class="modal fade" id="castVoteModal" tabindex="-1" role="dialog" aria-labelledby="castVoteModal" aria-hidden="true">
+   <div class="modal-dialog" id="castvotedialog">
+     <div class="modal-content">
+       <div class="modal-header">
+         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+         <h4 class="modal-title"><%= nominationname %></h4>
+       </div>
+       <div class="modal-body">
+        <p>Thanks for participating on Represent.xyz. In order to run a sustainable business and provide this service, Represent.xyz charges a subscription fee. Your subscription to this sphere has expired. Visit your <a href="/subscriptions">Subscription Page</a> to maintain access to this sphere.</p>
+       </div>
+       <div class="modal-footer">
+        <% if (nominationvoterecord.length > 0) { %>
+           <button type="button" class="btn btn-default pull-left" data-dismiss="modal" data-toggle="modal" data-target="#showRecordModal">Show Record</button>
+        <% } %>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+     </div>
+   </div>
+</div>
+<% } 
+if (nominationvoterecord.length > 0) { %>
+<div class="modal fade" id="showRecordModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Record of Votes</h4>
+      </div>
+      <div class="modal-body" style="overflow: scroll;">
+        <% for(var i = 0; i < nominationvoterecord.length; i++) { 
+           var votefornomination = nominationvoterecord[i];
+        %>
+           <span class="voterecrodcreatedatitem" data-unixdatetime="<%= votefornomination['createdAt'] %>"></span> - <span><%= votefornomination['votescast'] %></span><br>
+        <% } %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal" data-toggle="modal" data-target="#castVoteModal">Vote</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<% } %>
+   <!-- START Main wrapper-->
+      <section class="wrapper">
+         <!-- START Top Navbar-->
+         <nav role="navigation" class="navbar navbar-default navbar-top navbar-fixed-top">
+            <!-- START navbar header-->
+            <div class="navbar-header" style="background-color: #ffffff;">
+               <a href="#" class="navbar-brand">
+                  <div class="brand-logo"><span id="logorepred">rep</span><span id="logoresblack">res</span><span id="logoentblue">ent</span>.xyz</div>
+                  <div class="brand-logo-collapsed"><img class="img img-responsive" src="assets/icons/apple-touch-icon-57x57-precomposed.png"></div>
+               </a>
+            </div>
+            <!-- END navbar header-->
+            <!-- START Nav wrapper-->
+            <div class="nav-wrapper">
+               <!-- START Left navbar-->
+               <ul class="nav navbar-nav">
+                  <li>
+                     <a href="#" data-toggle="aside">
+                        <em class="fa fa-align-left"></em>
+                     </a>
+                  </li>
+               </ul>
+               <!-- END Left navbar-->
+               <!-- START Right Navbar-->
+               <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                           <a href="javascript:void(0);" data-toggle="dropdown" data-play="bounceIn" class="dropdown-toggle" aria-expanded="false">
+                              <em class="fa fa-user"></em>
+                           </a>
+                           <!-- START Dropdown menu-->
+                           <ul class="dropdown-menu" style="">
+                              <li style="padding: 20px 10px;"><a href="javascript:void(0);" id="promote">
+                                 <em class="fa fa-facebook text-muted"></em> - Invite Friends</a>
+                              </li>
+                              <li style="padding: 20px 10px;"><a href="/me">
+                                 <em class="fa fa-cog text-muted"></em>Settings</a>
+                              </li>
+                              <li style="padding: 20px 10px;"><a href="/logout">
+                                 <em class="fa fa-sign-out text-muted"></em>Logout</a>
+                              </li>
+                           </ul>
+                           <!-- END Dropdown menu-->
+                        </li>
+                  <!-- END Alert menu-->
+                  <!-- END User menu-->
+                  <!-- START Contacts button-->
+                  <!-- <li>
+                     <a href="#" data-toggle="offsidebar">
+                        <em class="fa fa-align-right"></em>
+                     </a>
+                  </li> -->
+                  <!-- END Contacts menu-->
+               </ul>
+               <!-- END Right Navbar-->
+            </div>
+            <!-- END Nav wrapper-->
+         </nav>
+         <aside class="aside">
+         <!-- START Sidebar (left)-->
+         <nav class="sidebar" style="overflow: auto;">
+            <ul class="nav">
+               <!-- START user info-->
+               <li>
+                  <div class="item user-block" id="userProfile">
+                     <!-- User picture-->
+                     <% if(userprofileimageurl !== null) { %>
+                     <div class="user-block-picture">
+                        <img src="<%= userprofileimageurl %>" alt="<%= username %>" width="60" height="60" class="img-thumbnail img-circle">
+                     </div>
+                     <% } %>
+                     <!-- Name and Role-->
+                     <div class="user-block-info">
+                        <span class="user-block-name"><%= username %></span>
+                     </div>
+                  </div>
+               </li>
+               <!-- END user info-->
+               <!-- START Menu-->
+               <li class="">
+                  <a href="/spheres" title="spheres">
+                     <em class="fa fa-circle"></em>
+                     <div class="label label-primary pull-right"><%= numberofuserspheres %></div>
+                     <span class="item-text" style="padding-right: 15px;">Spheres</span>
+                  </a>
+               </li>
+               <li class="">
+                  <a href="/votes" title="votes">
+                     <em class="fa fa-star"></em>
+                     <div class="label label-primary pull-right"><%= numberofuservotescast %></div>
+                     <span class="item-text" style="padding-right: 15px;">Votes</span>
+                  </a>
+               </li>
+               <li class="">
+                  <a href="/admin" title="admin">
+                     <em class="fa fa-lock"></em>
+                     <div class="label label-primary pull-right"><%= numberofadminactionitems %></div>
+                     <span class="item-text" style="padding-right: 15px;">Admin</span>
+                  </a>
+               </li>
+               <li class="">
+                  <a href="/decisions" title="decisions">
+                     <em class="fa fa-compass"></em>
+                     <div class="label label-primary pull-right"><%= numberofdecisions %></div>
+                     <span class="item-text" style="padding-right: 15px;">Decisions</span>
+                  </a>
+               </li>
+               <!-- END Menu-->
+               <!-- Sidebar footer -->
+               <li class="nav-footer">
+                  <div class="nav-footer-divider"></div>
+                  <!-- START button sphere-->
+                  <div class="btn-sphere text-center">
+                     <a href="/me" type="button" data-toggle="tooltip" data-title="Settings" class="btn btn-link">
+                        <em class="fa fa-cog text-muted"></em>
+                     </a>
+                     <a href="/logout" type="button" data-toggle="tooltip" data-title="Logout" class="btn btn-link">
+                        <em class="fa fa-sign-out text-muted"></em>
+                     </a>
+                  </div>
+                  <!-- END button sphere-->
+               </li>
+            </ul>
+         </nav>
+         <!-- END Sidebar (left)-->
+      </aside>
+      <!-- End aside-->
+      <!-- START Main section-->
+      <section>
+         <!-- START Page content-->
+         <section class="main-content" style="min-height: 600px;">
+            <a href="/sphere/<%= sphereobjectid %>"><%= spherename %> </a><em><i class="fa fa-level-down"></i></em>
+            <a href="/sphere/<%= sphereobjectid %>/election/<%= electionobjectid %>"> <%= electionname %></a>
+            <div class="panel widget" style="max-width: 971px;">
+               <% if ((nominationpictures.length > 0) || (nominationbackgroundpictureexists)) { %>
+               <div class="half-float">
+                  <img id="nominationBackgroundImage" src="<%= nominationbackgroundpicture %>" class="img img-responsive" style="display: inline-block;">
+                  <% if (nominationpictures.length > 0) { %>
+                  <div class="half-float-bottom">
+                        <img src="<%= nominationprofilepicture %>" title="<%= nominationname %>" id="nominationFirstImage" class="img img-responsive" style="display: inline-block;">
+                  </div>
+                  <% } %>
+               </div>
+               <% } %>
+                <div class="row row-table text-center hidden">
+                     <div class="col-xs-12">
+                        <div id="links">
+                           <% 
+                           if(nominationpictures.length <= 0) {
+                           %>
+                              <a href="#" class="hidden">
+                                 <img src="../../../../../assets/icons/icon-192x192.png" data-pictureid="0" title="Represent.xyz">
+                              </a>
+                           <%
+                           } else {
+                              _.each(nominationpictures, function(picture){ %>
+                               <a href="<%= picture["pictureurl"] %>" data-pictureid="<%= picture["pictureid"] %>" title="<%= nominationname %>">
+                                   <img src="<%= picture["thumbnailurl"] %>" alt="<%= nominationname %>">
+                               </a>
+                               <%
+                              });
+                           }
+                           %>
+                        </div>
+                     </div>
+                  </div>
+               <div class="panel-body text-center">
+                  <h3 class="m0"><%= nominationname %></h3>
+                  <p><%= nominationdescription %></p><br>
+                  <% if((sphereadmin == true) || (electionadmin == puserid) || (nominationadmin == puserid)) { %>
+                     <a href="javascript:void(0);" id="editdescriptionmodallaunchbutton" data-target="#editDescriptionModal" data-toggle="modal">edit</a>
+                  <% } %>
+                  <br>
+                  <span style="font-size: 14pt" class="hidden-sm hidden-xs" id="endofelection"></span>
+                  <span style="font-size: 10pt" class="hidden-md hidden-lg" id="endofelection"></span>
+               </div>
+               <div class="panel-body text-center bg-gray-lighter">
+                  <div class="row">
+                      <div class="col-xs-12">
+                        <% if(voteoreval == "vote") {
+                           var votesorevaluationscollectedtext = "Votes: "+votes;
+                           var launchvoteorevalmodalbutton = "Vote";
+                        } else if(voteoreval == "allocation") {
+                           var avgeval = Math.floor(votes / numofindividualevaluators) || "N/A";
+                           var votesorevaluationscollectedtext = "Average Allocation: "+avgeval;
+                           var launchvoteorevalmodalbutton = "Allocate";
+                        } 
+                        else if(voteoreval == "evaluation") {
+                           var avgeval = Math.floor(votes / numofindividualevaluators) || "N/A";
+                           var votesorevaluationscollectedtext = "Average Evaluation: "+avgeval;
+                           var launchvoteorevalmodalbutton = "Evaluate";
+                        } %>
+                        <div style="text-align: center; display: inline-block;">
+                           <h3 id="collectedvotessign" class="m0"><%= votesorevaluationscollectedtext %></h3>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="row row-table">
+                     <div class="col-xs-12">
+                           <a class="btn btn-lg btn-default" id="voteforthis" data-toggle="modal" data-target="#castVoteModal"><%= launchvoteorevalmodalbutton %></a>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <% if(commentsonnominationallowed) { 
+              if(ismembercurrentwithsubscription) { %>
+            <div class="row row-table text-center">
+               <div class="col-xs-12">
+                  <div class="fb-comments" data-href="https://<%= appurl %>/sphere/<%= sphereobjectid %>/election/<%= electionobjectid %>/nomination/<%= nominationobjectid %>" data-numposts="5" data-colorscheme="light"></div>
+               </div>
+            </div>
+            <% }
+            } %>
+         </section>
+         <!-- END Page content -->
+      </section>
+      <!-- END Main section -->
+   </section>
+   <!-- END Main wrapper -->
+   <!-- START Scripts -->
+   <script src="../../../../../admin/app/vendor/blueimp-gallery/js/blueimp-gallery.min.js"></script>
+   <script src="../../../../../admin/app/vendor/slider/js/bootstrap-slider.js"></script>
+   <script src="../../../../../admin/app/vendor/filestyle/bootstrap-filestyle.min.js"></script>
+   <script src="../../../../../admin/app/vendor/moment/min/moment.min.js"></script>
+   <!-- App Main-->
+    <script>
+      $(document).ready(function() {
+         $("#userProfile").click(function() {
+            window.location.href = '/profile';
+         });
+         $("#promote").click(function() {
+            var message = encodeURIComponent("<%= username %> invites you to vote for <%= nominationname %>");
+            window.top.location.href = 'https://www.facebook.com/dialog/apprequests?app_id=<%= appid %>&message='+message+'&redirect_uri=https://<%= appurl %>/sphere/<%= sphereid %>/election/<%= electionobjectid %>/nomination/<%= nominationobjectid %>';
+         });
+         $("#switchcommentsonnominationallowedinput").change(
+          function(){
+            if (this.checked) {
+              $("#switchcommentsonnominationallowedlabel").html("Yes");
+            } else {
+              $("#switchcommentsonnominationallowedlabel").html("No");
+            }
+        });
+      });
+   </script>
+   <script>
+    $(document).ready(function(){
+       function getUrlParameter(sParam)
+        {
+            var sPageURL = window.location.search.substring(1);
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++) 
+            {
+                var sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] == sParam) 
+                {
+                    return sParameterName[1];
+                }
+            }
+        }
+        var eparams = getUrlParameter("error");
+        if(eparams == "profileimagetoosmall"){
+          $("#addPictureModal").modal("show");
+          $("#profile-picture-alert").parent().removeClass("hidden");
+          $("#profile-picture-alert").html("Please Upload an Image with Dimensions of 256 x 256 or bigger");
+        }
+        if(eparams == "backgroundpicturetoosmall"){
+          $("#addBackgroundPictureModal").modal("show");
+          $("#background-picture-alert").parent().removeClass("hidden");
+          $("#background-picture-alert").html("Please Upload an Image with Dimensions of 972 x 261 or bigger");
+        }
+   });
+   </script>
+   <script type="text/javascript">
+         $(document).ready(function(){
+              var endformattedforcountdown = moment.unix('<%= electionenddatetime %>').format('L HH:mm:ss');
+              var endformattedforfinish = moment.unix('<%= electionenddatetime %>').format('L hh:mm a');
+              $("span#endofelection").countdown(endformattedforcountdown, function(event) {
+                  $(this).text(event.strftime('The election ends in %D days %H hours %M minutes and %S seconds'));
+               }).on('finish.countdown', function(event) {
+                  $('span#endofelection').html('Results are in! The election ended '+ endformattedforfinish);
+                  $('a#voteforthis').hide();
+                  $("#editdescriptionmodallaunchbutton").hide();
+               });
+               $.each($(".voterecrodcreatedatitem"), function(key, value){
+                  var unixtimeofvoterecord = $(this).data("unixdatetime");
+                  var dateformattedofvoterecord = moment.unix(unixtimeofvoterecord).format('L hh:mm a');
+                  $(this).html(dateformattedofvoterecord);
+               });
+         });
+   </script>
+   <script>
+   $(document).ready(function(){
+         $("#nominationFirstImage").on("click", function(event){
+            displayGallery();
+         });
+         $("#editImagesButton").on("click", function(event){
+            $("#addPictureModal").modal("show");
+         });
+        function displayGallery() {
+            var gallery = $("#links");
+            var links = gallery.find("a");
+            var options = {
+               onopened: function (event) {
+                  // Callback function executed when the Gallery has been initialized
+                  // and the initialization transition has been completed.
+                  var removePictureButton = $("#removePictureButton");
+                  var pictureid = links.eq(0).data("pictureid");
+                  removePictureButton.unbind().on("click", {removepictureid: pictureid}, function(event){
+                    if (!confirm("Are you sure you want to delete?")){
+                      return false;
+                    } else {
+                       $.post("/sphere/<%= sphereobjectid %>/election/<%= electionobjectid %>/nomination/<%= nominationobjectid %>/picture/"+event.data.removepictureid+"/remove",{}, function(){
+                          location.reload(true);
+                       });
+                    }
+                     event.stopPropagation();
+                  });
+                  var makeprofilebutton = $("#makeProfileButton");
+                  makeprofilebutton.unbind().on("click", {profilepictureid: pictureid}, function(event){
+                     $.post("/sphere/<%= sphereobjectid %>/election/<%= electionobjectid %>/nomination/<%= nominationobjectid %>/picture/"+event.data.profilepictureid+"/makeprofile",{}, function(){
+                          location.reload(true);
+                      }); 
+                  });
+               },
+               onslide: function (index, slide) {
+                  // Callback function executed on slide change.
+                  var removePictureButton = $("#removePictureButton");
+                  var pictureid = links.eq(index).data("pictureid");
+                  removePictureButton.unbind().on("click", {removepictureid: pictureid}, function(event){
+                    if (!confirm("Are you sure you want to delete?")){
+                      return false;
+                    } else {
+                       $.post("/sphere/<%= sphereobjectid %>/election/<%= electionobjectid %>/nomination/<%= nominationobjectid %>/picture/"+event.data.removepictureid+"/remove",{}, function(){
+                          location.reload(true);
+                       });
+                    }
+                     event.stopPropagation();
+                  });
+                  var makeprofilebutton = $("#makeProfileButton");
+                  makeprofilebutton.unbind().on("click", {profilepictureid: pictureid}, function(event){
+                     $.post("/sphere/<%= sphereobjectid %>/election/<%= electionobjectid %>/nomination/<%= nominationobjectid %>/picture/"+event.data.profilepictureid+"/makeprofile",{}, function(){
+                          location.reload(true);
+                      }); 
+                  });
+                  
+               }
+            };
+            var blueimpGallery = blueimp.Gallery(links, options);
+         }
+         var votesalreadycast = <%= votesalreadycast %> || "N/A";
+         $( '#slider-fill' ).bind( "change", function(event, ui) {
+           $("#numberinputeval").val($('#slider-fill').val());
+         });
+         $( '#numberinputeval' ).bind( "change", function(event, ui) {
+           $("#slider-fill").val($('#votesToCast').val());
+         });
+         if("<%= voteoreval %>" == "evaluation") {
+            if(<%= votealreadycast %>) {
+                 $("#takevotebackbutton").one("click", function() {
+                   $("#castVoteModal").modal('hide');
+                   $.post("/sphere/<%= sphereobjectid %>/election/<%= electionobjectid %>/nomination/<%= nominationobjectid %>/takevoteback", 
+                       { },
+                       function()
+                           { 
+                               location.reload(true);
+                           }
+                     );
+                 });
+            } else { 
+               $("#castvotebutton").one("click", function() {
+                 var voterangemax = (<%= electionvotesallowed %> - <%= totaluservotescastinelection %>);
+                 if($('input[name="votesCast"]').val() > voterangemax) {
+                 } else {
+                    $("#voteforthis").hide();
+                    $("#castVoteModal").modal('hide');
+                    $("#collectedvotessign").parent().html("<img src='../../../../../assets/spinner2.gif' style='display: inline-block;' class='img img-responsive'>");
+                 }
+               });
+            }
+         } else {
+         if(<%= totaluservotescastinelection %> < <%= electionvotesallowed %>) {
+               $("#castvotebutton").one("click", function() {
+                 var voterangemax = (<%= electionvotesallowed %> - <%= totaluservotescastinelection %>);
+                 if($('input[name="votesCast"]').val() > voterangemax) {
+                 } else {
+                    $("#voteforthis").hide();
+                    $("#castVoteModal").modal('hide');
+                    $("#collectedvotessign").parent().html("<img src='../../../../../assets/spinner2.gif' style='display: inline-block;' class='img img-responsive'>");
+                 }
+            });
+         } else { 
+            if(<%= votealreadycast %>) {
+              $("#takevotebackbutton").one("click", function() {
+                $("#castVoteModal").modal('hide');
+                $.post("/sphere/<%= sphereobjectid %>/election/<%= electionobjectid %>/nomination/<%= nominationobjectid %>/takevoteback", 
+                    { },
+                    function()
+                        { 
+                            location.reload(true);
+                        }
+                  );
+              });
+            } 
+         }
+      }
+   });
+</script>
+   <%
+      if((sphereadmin) || (electionadmin == puserid) || (nominationadmin == puserid)) {
+   %>
+           <% include /pictureUpload %>
+
+    <script>
+    $(document).ready(function(){
+        $("#nominationBackgroundImage").click(function(){
+            $("#addBackgroundPictureModal").modal("show");
+        });
+    });
+    </script>
+<%  } %>
+   <script src="../../../../../admin/app/js/app.js"></script>
+</body>
+ 
+</html>

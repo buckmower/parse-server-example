@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+   <!--[if lt IE 7]> <html class="ie ie6 lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+   <!--[if IE 7]>    <html class="ie ie7 lt-ie9 lt-ie8"        lang="en"> <![endif]-->
+   <!--[if IE 8]>    <html class="ie ie8 lt-ie9"               lang="en"> <![endif]-->
+   <!--[if IE 9]>    <html class="ie ie9"                      lang="en"> <![endif]-->
+   <!--[if !IE]><!-->
+   <html lang="en" class="no-ie">
+   <!--<![endif]-->
+    
+   <head>
+      <!-- Meta-->
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+      <meta name="description" content="Spheres">
+      <meta name="keywords" content="vote, election, group, sphere, nominate, decide">
+      <meta name="author" content="<%= username %>">
+      <!-- Desktop Browsers -->
+      <link rel="shortcut icon" type="image/x-icon" href="assets/icons/favicon.ico" />
+      
+      <!-- Android: Chrome M39 and up-->
+      <link rel="manifest" href="assets/icons/manifest.json">
+      <!-- Android: Chrome M31 and up, ignored if manifest is present-->
+      <meta name="mobile-web-app-capable" content="yes">
+      <link rel="icon" sizes="192x192" href="assets/icons/icon-192x192.png">
+      <!-- iOS -->
+      <meta name="apple-mobile-web-app-capable" content="yes">
+      <meta name="apple-mobile-web-app-title" content="Represent.xyz">
+      
+      <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon-180x180-precomposed.png">
+      <link href="assets/icons/apple-touch-icon-152x152-precomposed.png" sizes="152x152" rel="apple-touch-icon">
+      <link href="assets/icons/apple-touch-icon-144x144-precomposed.png" sizes="144x144" rel="apple-touch-icon">
+      <link href="assets/icons/apple-touch-icon-120x120-precomposed.png" sizes="120x120" rel="apple-touch-icon">
+      <link href="assets/icons/apple-touch-icon-114x114-precomposed.png" sizes="114x114" rel="apple-touch-icon">
+      <link href="assets/icons/apple-touch-icon-76x76-precomposed.png" sizes="76x76" rel="apple-touch-icon">
+      <link href="assets/icons/apple-touch-icon-72x72-precomposed.png" sizes="72x72" rel="apple-touch-icon">
+      <link href="assets/icons/apple-touch-icon-60x60-precomposed.png" sizes="60x60" rel="apple-touch-icon">
+      <link href="assets/icons/apple-touch-icon-57x57-precomposed.png" sizes="57x57" rel="apple-touch-icon">
+      <link href="assets/icons/apple-touch-icon-precomposed.png" rel="apple-touch-icon">
+      
+      <!-- Windows 8 and IE 11 -->
+      <meta name="msapplication-config" content="assets/icons/browserconfig.xml" />
+      
+      <!-- Windows -->
+      <meta name="application-name" content="Represent.xyz" />
+      <meta name="msapplication-tooltip" content="Let's Make Decisions Together!" />
+      <meta name="msapplication-window" content="width=1024;height=768" />
+      <meta name="msapplication-navbutton-color" content="#007EFF" />
+      <meta name="msapplication-starturl" content="./" />
+      <title>Represent.xyz | Spheres</title>
+      <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+      <!--[if lt IE 9]><script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script><script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script><![endif]-->
+      <!-- Bootstrap CSS-->
+      <link rel="stylesheet" href="admin/app/css/bootstrap.css">
+      <!-- Vendor CSS-->
+      <link rel="stylesheet" href="admin/app/vendor/fontawesome/css/font-awesome.min.css">
+      <!-- START Page Custom CSS-->
+      <style>
+      #logorepred {
+        color: #ed0027;
+      }
+      #logoresblack {
+        color: #333333;
+      }
+      #logoentblue {
+        color: #007eff;
+      }
+      .brand-logo {
+        font-size: 28pt;
+      }
+      </style>
+      <!-- END Page Custom CSS-->
+      <!-- App CSS-->
+      <link rel="stylesheet" href="admin/app/css/app.css">
+      <!-- JavaScript Files -->
+      <!-- JQuery -->
+      <script src="admin/app/vendor/jquery/jquery.min.js"></script>
+      <script>
+          // JavaScript Document
+        $(document).ready(function(){
+        $("#sphereNameInput").keyup(function() 
+        {
+        $("#suggestionsFrame").removeClass("hidden");
+        $("#suggestionsFrame").addClass("show");
+        var searchbox = $(this).val();
+        var dataString = 'sphere_name='+ searchbox;
+        if(searchbox === '')
+        {}
+        else
+        {
+        $.ajax({
+        type: "POST",
+        url: "/spheres/search",
+        data: dataString,
+        cache: false,
+        success: function(arrayofhtml)
+        {
+           var str = arrayofhtml.join('');
+           $("#suggestion").html(str).show();
+        }
+        });
+        }return false; 
+        });
+        $("#dismissSuggestionsButton").click(function(){
+           $("#suggestionsFrame").addClass("hidden");
+        });
+        });
+      </script>
+   </head>
+<body class="">
+   <div id="fb-root"></div>
+   <% include /settings %>
+      <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModal" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title">Search for a Sphere</h4>
+            </div>
+            <div class="modal-body">
+               <div id="sphereSearch">
+                 <form role="search" class="navbar-form">
+                    <div class="input-sphere">
+                       <input type="text" id="sphereNameInput" placeholder="Start typing to search..." class="form-control">
+                    </div>
+                 </form>
+                 <div class="hidden" id="suggestionsFrame" style="display: inline-block;">
+                   <button id="dismissSuggestionsButton" class="close"><span>&times;</span></button>
+                      <div id="suggestion" style="display: inline-block;">
+                      </div>
+                 </div>
+               </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-md btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#suggestedspheresModal">Suggestions</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+      <div class="modal fade" id="suggestedspheresModal" tabindex="-1" role="dialog" aria-labelledby="suggestedspheresModal" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title">Spheres</h4>
+            </div>
+            <div class="modal-body">
+                <% for(var i=0; i < randomspheres.length; i++) { 
+                    var randomsphere = randomspheres[i];
+                %>
+                    <h4><%= randomsphere.sphereName %></h4>
+                    <a class="btn btn-default" data-toggle="collapse" href="#collapseDescription<%= randomsphere.sphereObjectID %>" aria-expanded="false" aria-controls="collapseDescription<%= randomsphere.sphereObjectID %>">Show Description</a>
+                    <div class="collapse" id="collapseDescription<%= randomsphere.sphereObjectID %>">
+                        <div class="well"><%= randomsphere.sphereDescription %></div>
+                    </div>
+                    <a class="btn btn-md btn-primary" href="/sphere/<%= randomsphere.sphereObjectID %>">Go to sphere</a>
+                <% } %>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+      <div class="modal fade" id="createsphereModal" tabindex="-1" role="dialog" aria-labelledby="createsphereModal" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title">Create A New Sphere</h4>
+            </div>
+            <div class="modal-body">
+                <div id="noticeofsubscriptionfee">
+                  <h2>Please Note</h2>
+                  <p>A yearly subscription fee of $9.57 will be requested from each member of this sphere within 30 days of membership.</p>
+                  <button id="noticegivenbutton" class="btn btn-primary btn-lg">Okay</button>
+                </div>
+                <form method="POST" action="/spheres/create" id="createsphereform" class="hidden">
+                  <div class="form-group">
+                   <label id="newspherePrivacyInputLabel" class="col-sm-7 control-label">Private Membership</label>
+                   <div class="col-sm-5">
+                      <label class="switch">
+                         <input id="newspherePrivacy" name="newspherePrivacy" type="checkbox">
+                         <span></span>
+                      </label>
+                   </div>
+                  </div>
+                  <div class="form-group">
+                   <label id="newsphereElectionCreationOptionsInputLabel" class="col-sm-7 control-label">Only Admins Can Create Elections</label>
+                   <div class="col-sm-5">
+                      <label class="switch">
+                         <input id="newsphereElectionCreationOptions" name="newsphereElectionCreationOptions" type="checkbox">
+                         <span></span>
+                      </label>
+                   </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="newsphereNameInput">Sphere Name</label>
+                    <input type="text" class="form-control" name="newsphereName" id="newsphereNameInput" placeholder="Enter New Sphere Name">
+                  </div>
+                  <div class="form-group">
+                    <label for="newsphereDescriptionInput">Description</label>
+                    <textarea class="form-control" name="newsphereDescription" id="newsphereDescriptionInput"></textarea>
+                  </div>
+                  <br>
+                  <div class="form-group">
+                    <input type="submit" name="submitNewsphere" class="btn btn-primary" value="Create">
+                  </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+   <!-- START Main wrapper-->
+      <section class="wrapper">
+         <!-- START Top Navbar-->
+         <nav role="navigation" class="navbar navbar-default navbar-top navbar-fixed-top">
+            <!-- START navbar header-->
+            <div class="navbar-header" style="background-color: #ffffff;">
+               <a href="#" class="navbar-brand">
+                  <div class="brand-logo"><span id="logorepred">rep</span><span id="logoresblack">res</span><span id="logoentblue">ent</span>.xyz</div>
+                  <div class="brand-logo-collapsed"><img class="img img-responsive" src="assets/icons/apple-touch-icon-57x57-precomposed.png"></div>
+               </a>
+            </div>
+            <!-- END navbar header-->
+            <!-- START Nav wrapper-->
+            <div class="nav-wrapper">
+               <!-- START Left navbar-->
+               <ul class="nav navbar-nav">
+                  <li>
+                     <a href="#" data-toggle="aside">
+                        <em class="fa fa-align-left"></em>
+                     </a>
+                  </li>
+                  <!-- START Search button-->
+                    <li>
+                       <a href="#" data-target="#searchModal" data-toggle="modal">
+                          <em class="fa fa-search"></em>
+                       </a>
+                    </li>
+                  <!-- END Seach menu-->
+                    <li>
+                       <a href="#" data-target="#createsphereModal" data-toggle="modal">
+                          <em class="fa fa-plus"></em>
+                       </a>
+                    </li>
+               </ul>
+               <!-- END Left navbar-->
+               <!-- START Right Navbar-->
+               <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                           <a href="javascript:void(0);" data-toggle="dropdown" data-play="bounceIn" class="dropdown-toggle" aria-expanded="false">
+                              <em class="fa fa-user"></em>
+                           </a>
+                           <!-- START Dropdown menu-->
+                           <ul class="dropdown-menu" style="">
+                              <li style="padding: 20px 10px;"><a href="/me">
+                                 <em class="fa fa-cog text-muted"></em>Settings</a>
+                              </li>
+                              <li style="padding: 20px 10px;"><a href="/logout">
+                                 <em class="fa fa-sign-out text-muted"></em>Logout</a>
+                              </li>
+                           </ul>
+                           <!-- END Dropdown menu-->
+                        </li>
+                  <!-- END Alert menu-->
+               </ul>
+               <!-- END Right Navbar-->
+            </div>
+            <!-- END Nav wrapper-->
+         </nav>
+         <aside class="aside">
+         <!-- START Sidebar (left)-->
+         <nav class="sidebar" style="overflow: auto;">
+            <ul class="nav">
+               <!-- START user info-->
+               <li>
+                  <div class="item user-block" id="userProfile">
+                     <!-- User picture-->
+                     <% if(userprofileimageurl !== null) { %>
+                     <div class="user-block-picture">
+                        <img src="<%= userprofileimageurl %>" alt="<%= username %>" width="60" height="60" class="img-thumbnail img-circle">
+                     </div>
+                     <% } %>
+                     <!-- Name and Role-->
+                     <div class="user-block-info">
+                        <span class="user-block-name"><%= username %></span>
+                     </div>
+                  </div>
+               </li>
+               <!-- END user info-->
+               <!-- START Menu-->
+               <li class="">
+                  <a href="/spheres" title="spheres">
+                     <em class="fa fa-circle"></em>
+                     <div class="label label-primary pull-right"><%= numberofuserspheres %></div>
+                     <span class="item-text" style="padding-right: 15px;">Spheres</span>
+                  </a>
+               </li>
+               <li class="">
+                  <a href="/votes" title="votes">
+                     <em class="fa fa-star"></em>
+                     <div class="label label-primary pull-right"><%= numberofuservotescast %></div>
+                     <span class="item-text" style="padding-right: 15px;">Votes</span>
+                  </a>
+               </li>
+               <li class="">
+                  <a href="/admin" title="admin">
+                     <em class="fa fa-lock"></em>
+                     <div class="label label-primary pull-right"><%= numberofadminactionitems %></div>
+                     <span class="item-text" style="padding-right: 15px;">Admin</span>
+                  </a>
+               </li>
+               <li class="">
+                  <a href="/decisions" title="decisions">
+                     <em class="fa fa-compass"></em>
+                     <div class="label label-primary pull-right"><%= numberofdecisions %></div>
+                     <span class="item-text" style="padding-right: 15px;">Decisions</span>
+                  </a>
+               </li>
+               <!-- END Menu-->
+               <!-- Sidebar footer -->
+               <li class="nav-footer">
+                  <div class="nav-footer-divider"></div>
+                  <!-- START button sphere-->
+                  <div class="btn-sphere text-center">
+                     <a href="/me" type="button" data-toggle="tooltip" data-title="Settings" class="btn btn-link">
+                        <em class="fa fa-cog text-muted"></em>
+                     </a>
+                     <a href="/logout" type="button" data-toggle="tooltip" data-title="Logout" class="btn btn-link">
+                        <em class="fa fa-sign-out text-muted"></em>
+                     </a>
+                  </div>
+                  <!-- END button sphere-->
+               </li>
+            </ul>
+         </nav>
+         <!-- END Sidebar (left)-->
+      </aside>
+      <!-- End aside-->
+      <!-- START Main section-->
+      <section>
+         <!-- START Page content-->
+         <section class="main-content" style="min-height: 600px;">
+            <% if((typeof userspheres == "undefined") || (userspheres == "") || (userspheres == null) || (userspheres === 0) || (userspheres === "0")) { %>
+            <div class="row-masonry row-masonry-xl-3 row-masonry-lg-3 row-masonry-md-1 row-masonry-sm-1" style="padding-top: 20px;">
+                <div class="col-masonry">
+                     <div class="box-placeholder m0">
+                        <div>
+                            <p class="text-center text-muted">
+                                <span style="font-size: 18pt;"><a href="javascript:void(0)" data-toggle="modal" data-target="#searchModal">Search for Spheres to Join</a></span> 
+                            </p>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-masonry">
+                     <div class="box-placeholder m0">
+                        <div>
+                            <p class="text-center text-muted">
+                                <span style="font-size: 18pt;"><a href="javascript:void(0)" data-toggle="modal" data-target="#createsphereModal">Create a New Sphere</a></span> 
+                            </p>
+                        </div>
+                     </div>
+                  </div>
+            </div>
+               <%
+               } else {
+            %>
+            <%
+                for(var i =0; i < userspheres.length; i++) { 
+                     var usersphere = userspheres[i];
+                     electionCreation = usersphere['sphereElectionCreation'];
+                     sphereAdmins = usersphere['sphereAdmins'];
+                     profilepicture = usersphere['profilePicture'];
+                     sphereAdminNames = new Array();
+                     for(var i2 = 0; i2 < sphereAdmins.length; i2++){
+                         sphereAdmin = sphereAdmins[i2];
+                         sphereAdminNames.push(sphereAdmin['admin']['adminName']);
+                     }
+                     var sphereadminnames = sphereAdminNames.toString();
+            if(((userspheres.length < 3) && (i == userspheres.length)) || ((i !== 0) && ((i%3) == 0)) || ((userspheres.length > 3) && ((i !== 0) && ((i%3) == 0)) && (i == userspheres.length))) { %>
+                </div>      
+            <%   }
+            if((i == 0) || ((i%3)) == 0) { %>
+            <div class="row">      
+            <%   }
+               %>
+                  <div class="col-lg-4">
+                  <!-- START widget-->
+                  <div class="panel widget">
+                     <div class="panel-body text-center text-white bg-gray-darker bg-center">
+                        <div class="row row-table">
+                           <div class="col-xs-12">
+                              <% if(profilepicture !== false) { %>
+                              <a href="/sphere/<%= usersphere['sphereObjectID'] %>"><img src="<%= profilepicture.thumbnail %>" style="width: 128px; height: 128px;" alt="Image" class="img-thumbnail img-circle"></a><br><br>
+                              <% } %>
+                              <h3 class="m0 text-white"><a style="text-decoration: none;" href="/sphere/<%= usersphere['sphereObjectID'] %>"><%= usersphere['sphereName'] %></a></h3><br>
+                              <p class="m0 text-white"><%= usersphere['sphereDescription'] %></p>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="panel-body text-center bg-gray-darker">
+                        <div class="row row-table">
+                           <div class="col-xs-6">
+                              <a type="button" href="javascript:void(0);" class="text-white" data-container="body" data-toggle="popover" data-placement="top" data-content="Election Creation: <%= electionCreation %>">
+                                 <em class="fa fa-flag fa-2x"></em>
+                              </a>
+                           </div>
+                           <div class="col-xs-6">
+                              <a type="button" href="javascript:void(0);" class="text-white" data-container="body" data-toggle="popover" data-placement="top" data-content="Admins: <%= sphereadminnames %>">
+                                 <em class="fa fa-user fa-2x"></em>
+                              </a>
+                           </div>
+                        </div>
+                     </div>
+                    <div class="panel-group" role="tablist">
+                        <div class="panel panel-default">
+                          <div class="panel-heading" role="tab" id="collapseListGroupHeading<%= i %>">
+                            <h4 class="panel-title" id="-collapsible-list-group-<%= i %>">
+                              <a class="collapsed" data-toggle="collapse" href="#collapseListGroup<%= i %>" aria-expanded="false" aria-controls="collapseListGroup<%= i %>">
+                                Recent Elections
+                              </a>
+                            <a class="anchorjs-link" href="#-collapsible-list-group-<%= i %>"><span class="anchorjs-icon"></span></a></h4>
+                          </div>
+                          <div id="collapseListGroup<%= i %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading<%= i %>" aria-expanded="false" style="height: 0px;">
+                            <ul class="list-group">
+                              <% for(i3 = 0; i3 < usersphere['elections'].length; i3++) { 
+                                  var election = usersphere['elections'][i3];
+                                  var electionName = election['electionName'];
+                                  var electionObjectID = election['electionObjectID'];
+                                  var electionEndDate = election['endDateUnix'];
+                              %>
+                                  <li class="list-group-item"><a href="/sphere/<%= usersphere['sphereObjectID'] %>/election/<%= electionObjectID %>"><%= electionName %></a>
+                                  <br>
+                                  <date style="font-size: 9pt;" class="electionEndDateText" data-endofelection="<%= electionEndDate %>"></date>
+                                  </li>
+                              <% } %>
+                            </ul>
+                            <div class="panel-footer"><a href="/sphere/<%= usersphere['sphereObjectID'] %>">Go To Sphere</a></div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  <!-- END widget-->
+               </div>
+              <%
+                    } %>
+              <% } %>
+              <% if(numberofuserspheres > 9) { %>
+              <nav>
+              <ul class="pagination">
+                <li class="<%= previousdisabled %>">
+                  <a href="/spheres?page=<%= previouspage %>" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+               <% for(var i=0; i < numberofchunksofuserspheres; i++) { 
+                   if(i == currentpage){
+                       var active = "active";
+                   } else {
+                       var active = "";
+                   }
+               %>
+                        <li class="<%= active %>"><a href="/spheres?pg=<%= i %>"><%= i + 1 %></a></li>
+               <% } %>
+               <li class="<%= nextdisabled %>">
+                  <a href="/spheres?page=<%= nextpage %>" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+            <% } %>
+         </section>
+         <!-- END Page content -->
+      </section>
+      <!-- END Main section -->
+   </section>
+   <!-- END Main wrapper -->
+   <!-- START Scripts -->
+   <script src="admin/app/vendor/moment/min/moment.min.js"></script>
+   <script>
+      $(document).ready(function() {
+         $("#inviteFriends").click(function() {
+            window.top.location.href = 'https://www.facebook.com/dialog/apprequests?app_id=487409348027542&message=Have%20You%20Checked%20Your%20Stats%20Recently%3F&redirect_uri=https://www.represent.xyz/profile';
+         });
+         $("#userProfile").click(function() {
+            window.location.href = '/profile';
+         });
+         $(function () {
+              $('[data-toggle="popover"]').popover();
+         });
+         $(".electionEndDateText").each(function(){
+            var enddateunix = $(this).data("endofelection");
+            var enddateformatted = moment.unix(enddateunix).format('l hh:mm a');
+            $(this).text("Ends "+enddateformatted);
+         });
+         $("#noticegivenbutton").click(function(){
+           $(this).addClass("hidden");
+           $("#noticeofsubscriptionfee").addClass("hidden");
+           $("#createsphereform").removeClass("hidden");
+         });
+      });
+   </script>
+   <!-- Main vendor Scripts -->
+   <script src="admin/app/vendor/bootstrap/js/bootstrap.min.js"></script>
+   <!-- App Main-->
+   <script src="admin/app/js/profile.js"></script>
+   </body>
+</html>

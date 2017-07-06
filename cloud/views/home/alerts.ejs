@@ -1,0 +1,22 @@
+<script>
+$(document).ready(function(){
+function getUrlParameter(sParam)
+{
+    var sPageURL = window.location.search.substring(1);
+    var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++) 
+    {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam) 
+        {
+            return sParameterName[1];
+        }
+    }
+}
+var rparams = getUrlParameter("error");
+if(rparams == "alreadysignedup"){
+    $("#signupModal").show();
+    $("#signuperrorlist").html("<li>That Email Address Is Already Signed Up!</li><br><button class='btn btn-default' data-toggle='modal' data-target='#recoverPasswordModal'>Recover Password?</button>");
+}
+});
+</script>

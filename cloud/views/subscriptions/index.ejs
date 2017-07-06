@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+   <!--[if lt IE 7]> <html class="ie ie6 lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+   <!--[if IE 7]>    <html class="ie ie7 lt-ie9 lt-ie8"        lang="en"> <![endif]-->
+   <!--[if IE 8]>    <html class="ie ie8 lt-ie9"               lang="en"> <![endif]-->
+   <!--[if IE 9]>    <html class="ie ie9"                      lang="en"> <![endif]-->
+   <!--[if !IE]><!-->
+   <html lang="en" class="no-ie">
+   <!--<![endif]-->
+   
+   <head>
+      <!-- Meta-->
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+      <meta name="description" content="Voter Dashboard">
+      <meta name="keywords" content="vote, election, group, sphere, nominate, decide">
+      <meta name="author" content="<%= username %>">
+      <!-- Desktop Browsers -->
+      <link rel="shortcut icon" type="image/x-icon" href="assets/icons/favicon.ico" />
+      
+      <!-- Android: Chrome M39 and up-->
+      <link rel="manifest" href="assets/icons/manifest.json">
+      <!-- Android: Chrome M31 and up, ignored if manifest is present-->
+      <meta name="mobile-web-app-capable" content="yes">
+      <link rel="icon" sizes="192x192" href="assets/icons/icon-192x192.png">
+      <!-- iOS -->
+      <meta name="apple-mobile-web-app-capable" content="yes">
+      <meta name="apple-mobile-web-app-title" content="Represent.xyz">
+      
+      <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon-180x180-precomposed.png">
+      <link href="assets/icons/apple-touch-icon-152x152-precomposed.png" sizes="152x152" rel="apple-touch-icon">
+      <link href="assets/icons/apple-touch-icon-144x144-precomposed.png" sizes="144x144" rel="apple-touch-icon">
+      <link href="assets/icons/apple-touch-icon-120x120-precomposed.png" sizes="120x120" rel="apple-touch-icon">
+      <link href="assets/icons/apple-touch-icon-114x114-precomposed.png" sizes="114x114" rel="apple-touch-icon">
+      <link href="assets/icons/apple-touch-icon-76x76-precomposed.png" sizes="76x76" rel="apple-touch-icon">
+      <link href="assets/icons/apple-touch-icon-72x72-precomposed.png" sizes="72x72" rel="apple-touch-icon">
+      <link href="assets/icons/apple-touch-icon-60x60-precomposed.png" sizes="60x60" rel="apple-touch-icon">
+      <link href="assets/icons/apple-touch-icon-57x57-precomposed.png" sizes="57x57" rel="apple-touch-icon">
+      <link href="assets/icons/apple-touch-icon-precomposed.png" rel="apple-touch-icon">
+      
+      <!-- Windows 8 and IE 11 -->
+      <meta name="msapplication-config" content="assets/icons/browserconfig.xml" />
+      
+      <!-- Windows -->
+      <meta name="application-name" content="Represent.xyz" />
+      <meta name="msapplication-tooltip" content="Let's Make Decisions Together!" />
+      <meta name="msapplication-window" content="width=1024;height=768" />
+      <meta name="msapplication-navbutton-color" content="#007EFF" />
+      <meta name="msapplication-starturl" content="./" />
+      <title>Represent.xyz | Subscriptions</title>
+      <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+      <!--[if lt IE 9]><script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script><script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script><![endif]-->
+      <!-- Bootstrap CSS-->
+      <link rel="stylesheet" href="admin/app/css/bootstrap.css">
+      <!-- Vendor CSS-->
+      <link rel="stylesheet" href="admin/app/vendor/fontawesome/css/font-awesome.min.css">
+      <!-- START Page Custom CSS-->
+      <style>
+      #logorepred {
+        color: #ed0027;
+      }
+      #logoresblack {
+        color: #333333;
+      }
+      #logoentblue {
+        color: #007eff;
+      }
+      .brand-logo {
+        font-size: 28pt;
+      }
+      </style>
+      <!-- END Page Custom CSS-->
+      <!-- App CSS-->
+      <link rel="stylesheet" href="admin/app/css/app.css">
+      <!-- JavaScript Files -->
+      <!-- JQuery -->
+      <script src="admin/app/vendor/jquery/jquery.min.js"></script>
+      <script src="admin/app/vendor/moment/min/moment.min.js"></script>
+      <script src="admin/app/vendor/countdown/jquery.countdown.js"></script>
+      <!-- Stripe Integration -->
+      <script src="https://checkout.stripe.com/checkout.js"></script>
+      <script>
+      $(document).ready(function(){
+        var callTheHandler = function(sphereName, sphereObjectID){
+          var handler = StripeCheckout.configure({
+            key: 'pk_live_MkWV2ySo6LyEV7CNII7PdBi6',
+            name: 'Represent.xyz',
+            image: '/assets/icons/apple-touch-icon-144x144-precomposed.png',
+            locale: 'auto',
+            amount: 957,
+            description: "1 yr subscription to "+sphereName,
+            email: "<%= useremail %>",
+            token: function(token) {
+              // Use the token to create the charge with a server-side script.
+              // You can access the token ID with `token.id`
+              $.post("/striperequest", {"tokenid": token.id, "tokenemail": token.email, "spherename": sphereName, "sphereobjectid": sphereObjectID}, function(){
+                location.reload(true);
+              });
+            }
+          });
+          handler.open();
+        };
+        $('.paysubscriptionform').on('click', function(e){
+          e.preventDefault();
+          callTheHandler($(this).data("spherename"), $(this).data("sphereobjectid"));
+        });
+        // Close Checkout on page navigation
+        $(window).on('popstate', function() {
+          handler.close();
+        });
+      });
+      </script>
+      <!-- Google Analytics -->
+      <script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		
+		  ga('create', 'UA-61425849-1', 'auto');
+		  ga('send', 'pageview');
+		
+	  </script>
+   </head>
+<body class="">
+   <div id="fb-root"></div>
+   <!-- START Main wrapper-->
+      <section class="wrapper">
+         <!-- START Top Navbar-->
+         <nav role="navigation" class="navbar navbar-default navbar-top navbar-fixed-top">
+            <!-- START navbar header-->
+            <div class="navbar-header" style="background-color: #ffffff;">
+               <a href="#" class="navbar-brand">
+                  <div class="brand-logo"><span id="logorepred">rep</span><span id="logoresblack">res</span><span id="logoentblue">ent</span>.xyz</div>
+                  <div class="brand-logo-collapsed"><img class="img img-responsive" src="assets/icons/apple-touch-icon-57x57-precomposed.png"></div>
+               </a>
+            </div>
+            <!-- END navbar header-->
+            <!-- START Nav wrapper-->
+            <div class="nav-wrapper">
+               <!-- START Left navbar-->
+               <ul class="nav navbar-nav">
+                  <li>
+                     <a href="#" data-toggle="aside">
+                        <em class="fa fa-align-left"></em>
+                     </a>
+                  </li>
+               </ul>
+               <!-- END Left navbar-->
+               <!-- START Right Navbar-->
+               <ul class="nav navbar-nav navbar-right">
+                  <!-- START Alert menu-->
+                  <li class="dropdown">
+                           <a href="javascript:void(0);" data-toggle="dropdown" data-play="bounceIn" class="dropdown-toggle" aria-expanded="false">
+                              <em class="fa fa-user"></em>
+                           </a>
+                           <!-- START Dropdown menu-->
+                           <ul class="dropdown-menu" style="">
+                              <li style="padding: 20px 10px;"><a href="/me">
+                                 <em class="fa fa-cog text-muted"></em>Settings</a>
+                              </li>
+                              <li style="padding: 20px 10px;"><a href="/logout">
+                                 <em class="fa fa-sign-out text-muted"></em>Logout</a>
+                              </li>
+                           </ul>
+                           <!-- END Dropdown menu-->
+                        </li>
+                     </ul>
+                     <!-- END Dropdown menu-->
+                  </li>
+                  <!-- END Alert menu-->
+                  <!-- END User menu-->
+                  <!-- START Contacts button-->
+                  <!-- <li>
+                     <a href="#" data-toggle="offsidebar">
+                        <em class="fa fa-align-right"></em>
+                     </a>
+                  </li> -->
+                  <!-- END Contacts menu-->
+               </ul>
+               <!-- END Right Navbar-->
+            </div>
+            <!-- END Nav wrapper-->
+         </nav>
+         <aside class="aside">
+         <!-- START Sidebar (left)-->
+         <nav class="sidebar" style="overflow: auto;">
+            <ul class="nav">
+               <!-- START user info-->
+               <li>
+                  <div class="item user-block" id="userProfile">
+                     <!-- User picture-->
+                     <% if(userprofileimageurl !== null) { %>
+                     <div class="user-block-picture">
+                        <img src="<%= userprofileimageurl %>" alt="<%= username %>" width="60" height="60" class="img-thumbnail img-circle">
+                     </div>
+                     <% } %>
+                     <!-- Name and Role-->
+                     <div class="user-block-info">
+                        <span class="user-block-name"><%= username %></span>
+                     </div>
+                  </div>
+               </li>
+               <!-- END user info-->
+               <!-- START Menu-->
+               <li class="">
+                  <a href="/spheres" title="spheres">
+                     <em class="fa fa-circle"></em>
+                     <div class="label label-primary pull-right"><%= numberofuserspheres %></div>
+                     <span class="item-text" style="padding-right: 15px;">Spheres</span>
+                  </a>
+               </li>
+               <li class="">
+                  <a href="/votes" title="votes">
+                     <em class="fa fa-star"></em>
+                     <div class="label label-primary pull-right"><%= numberofuservotescast %></div>
+                     <span class="item-text" style="padding-right: 15px;">Votes</span>
+                  </a>
+               </li>
+               <li class="">
+                  <a href="/admin" title="admin">
+                     <em class="fa fa-lock"></em>
+                     <div class="label label-primary pull-right"><%= numberofadminactionitems %></div>
+                     <span class="item-text" style="padding-right: 15px;">Admin</span>
+                  </a>
+               </li>
+               <li class="">
+                  <a href="/decisions" title="decisions">
+                     <em class="fa fa-compass"></em>
+                     <div class="label label-primary pull-right"><%= numberofdecisions %></div>
+                     <span class="item-text" style="padding-right: 15px;">Decisions</span>
+                  </a>
+               </li>
+               <!-- END Menu-->
+               <!-- Sidebar footer -->
+               <li class="nav-footer">
+                  <div class="nav-footer-divider"></div>
+                  <!-- START button sphere-->
+                  <div class="btn-sphere text-center">
+                     <a href="/me" type="button" data-toggle="tooltip" data-title="Settings" class="btn btn-link">
+                        <em class="fa fa-cog text-muted"></em>
+                     </a>
+                     <a href="/logout" type="button" data-toggle="tooltip" data-title="Logout" class="btn btn-link">
+                        <em class="fa fa-sign-out text-muted"></em>
+                     </a>
+                  </div>
+                  <!-- END button sphere-->
+               </li>
+            </ul>
+         </nav>
+         <!-- END Sidebar (left)-->
+      </aside>
+      <!-- End aside-->
+      <!-- START Main section-->
+      <section>
+         <!-- START Page content-->
+         <section class="main-content" style="min-height: 600px;">
+                <% if(membersubscriptions !== false) {
+                  for(var i=0; i < membersubscriptions.length; i++){
+                    var membersubscription = membersubscriptions[i];
+                    var daysremaining = membersubscription.joinedSphereDate;
+                    var mostrecentpayment = membersubscription.mostRecentPayment;
+                %>
+                  <!-- START widget-->
+                  <div class="panel widget">
+                     <div class="row row-table row-flush">
+                        <div class="col-xs-4 bg-info text-center spheresubscriptionpaidicon">
+                          <a class="btn btn-primary paysubscriptionform" data-sphereobjectid='<%= membersubscription.sphereObjectID %>' data-spherename='<%= membersubscription.sphereName %>'>Pay with Card</a>
+                          <span class="subscriptionpaidspan hidden" style='color: #fff; font-size: 18pt; text-shadow: 2 2 2 #333;'>PAID</span>
+                        </div>
+                        <div class="col-xs-8">
+                          <div class="panel-body text-center">
+                            <div class="row">
+                              <div class="col-xs-12">
+                                <h4 class="mt0"><a href="/sphere/<%= membersubscription.sphereObjectID %>"><%= membersubscription.sphereName %></a></h4>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-xs-6">
+                                <span class="mb0 text-muted joinedspheredatespan" data-sphereobjectid="<%= membersubscription.sphereObjectID %>" data-spherename="<%= membersubscription.sphereName %>" data-joinedspheredate="<%= membersubscription.joinedSphereDate %>"></span><br>
+                              </div>
+                              <div class="col-xs-6">
+                                <span class="mb0 text-muted mostrecentpaymentspan" data-joinedspheredate="<%= membersubscription.joinedSphereDate %>" data-mostrecentpaymentdate="<%= membersubscription.mostRecentPayment %>"></span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- END widget-->
+                <% }
+                }
+              %>
+            <!-- END timeline -->
+         </section>
+         <!-- END Page content -->
+      </section>
+      <!-- END Main section -->
+   </section>
+   <!-- END Main wrapper -->
+   <!-- START Scripts -->
+   <!-- Main vendor Scripts -->
+   <script src="admin/app/vendor/bootstrap/js/bootstrap.min.js"></script>
+   <!-- App Main-->
+   <script src="admin/app/js/profile.js"></script>
+   <script>
+      $(document).ready(function() {
+         $("#inviteFriends").click(function() {
+            window.top.location.href = 'https://www.facebook.com/dialog/apprequests?app_id=487409348027542&message=Have%20You%20Checked%20Your%20Stats%20Recently%3F&redirect_uri=https://www.represent.xyz/profile';
+         });
+         $("#userProfile").click(function() {
+            window.location.href = '/profile';
+         });
+         $(".joinedspheredatespan").each(function(){
+           var joinedspheredatedata = $(this).data("joinedspheredate");
+           var datejoinedlocal = moment(joinedspheredatedata).format('LLL');
+           $(this).html("Date Joined: "+datejoinedlocal);
+         });
+         $(".mostrecentpaymentspan").each(function(){
+           var mostrecentpaymentdatedata = $(this).data("mostrecentpaymentdate") || false;
+           var joinedspheredatedata = $(this).data("joinedspheredate");
+           var unixjoinedspheredate = moment(joinedspheredatedata).unix();
+           var unixdatemostrecentpaymentdata = moment(mostrecentpaymentdatedata).unix();
+           var nowdatetimeunix = new Date().getTime();
+           var eqnumber = $(".mostrecentpaymentspan").index(this);
+           if(((nowdatetimeunix - (unixjoinedspheredate * 1000)) < (30 * 24 * 60 * 60 * 1000)) && (mostrecentpaymentdatedata === false)){
+            var daysremaining = Math.floor(((1000 * 60 * 60 * 24 * 30) - (nowdatetimeunix - (unixjoinedspheredate * 1000))) / (60 * 60 * 24 * 1000));
+            $(this).html("You have "+daysremaining+" days remaining on your trial subscription");
+           }
+           else if((mostrecentpaymentdatedata !== false) && ((nowdatetimeunix - (unixdatemostrecentpaymentdata * 1000)) < (359 * 24 * 60 * 60 * 1000))){
+              var datejoinedlocal = moment(mostrecentpaymentdatedata).format('LLL');
+              $(this).html("Paid On: "+datejoinedlocal);
+              $(".paysubscriptionform").eq(eqnumber).addClass("hidden");
+              $(".subscriptionpaidspan").eq(eqnumber).removeClass("hidden");
+            }
+            else if((mostrecentpaymentdatedata !== false) && ((nowdatetimeunix - (unixdatemostrecentpaymentdata * 1000)) < (333 * 24 * 60 * 60 * 1000))){
+              var daysremaining = Math.floor((nowdatetimeunix - unixjoinedspheredate) / (60 * 60 * 24)) || "Less Than 2";
+              $(this).html("Your Subscription Ends In "+daysremaining+" Days!");
+            } else if((mostrecentpaymentdatedata !== false) && (nowdatetimeunix - (unixdatemostrecentpaymentdata * 1000) > (365 * 24 * 60 * 60 * 1000))){
+              $(this).html("Your Subscription Has Ended.");
+            }
+         });
+      });
+   </script>
+   <script>
+      $(document).ready(function(){
+         if($(document).width() < 700) {
+           $("#listofnotifications").removeClass("timeline").css({"list-style-type": "none", "margin-left": "0px", "padding-left": "0px"});
+           $(".timeline-badge").children().remove();
+           $(".timeline-badge").removeClass("timeline-badge");
+           $(".endDate").not(".popover-title").hide();
+           $(".timeline-date").removeClass();
+           $(".electionenddatediv").hide();
+           $(".electiontitle").css("font-size", "12pt");
+           $(".timeline-panel").removeClass("timeline-panel");
+           $(".electionitem").removeClass("timeline-inverted").css({"background-color": "#fff", "padding": "10px 0px", "margin": "10px 0px", "width": "100%"});
+           $(".popover").removeClass();
+           $(".arrow").hide();
+           $(".popover-content").removeClass();
+           $(".paysubscriptionform").removeClass("btn btn-primary").css({"color": "#fff", "font-size": "16pt", "text-shadow": "2 2 2 #333"}).html("Pay<br>with<br>Card");
+         } else {
+           $(".paysubscriptionform").not("btn btn-primary").addClass("btn btn-primary");
+         }
+      });
+   </script>
+   </body>
+ 
+</html>

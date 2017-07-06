@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /home
+Allow: /terms
+Allow: /privacy
+Allow: /public
+Disallow: /votes
+Disallow: /profile
+Disallow: /spheres
+Disallow: /admin
+Disallow: /sphere
+Disallow: /notifications

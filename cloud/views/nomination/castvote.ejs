@@ -1,0 +1,17 @@
+<script>
+$(document).ready(function(){
+  if("<%= voteoreval %>" == "vote") || ("<%= voteoreval %>" == "allocation")) {
+      $("#castvotebutton").one("click", function() {
+        $(this).addClass("hidden");
+        $(this).parent().html("<img src='../../../../../assets/spinner.gif' class='img img-responsive'>");
+        $.post("/sphere/<%= sphereobjectid %>/election/<%= electionobjectid %>/nomination/<%= nominationobjectid %>/castvote", { votesCast: $("#votesToCast option:selected").val() }, function(){ });
+      });
+  } else if ("<%= voteoreval %>" == "evaluation") {
+      $("#castvotebutton").one("click", function() {
+        $(this).addClass("hidden");
+        $(this).parent().html("<img src='../../../../../assets/spinner.gif' class='img img-responsive'>");
+        $.post("/sphere/<%= sphereobjectid %>/election/<%= electionobjectid %>/nomination/<%= nominationobjectid %>/castvote", { votesCast: $( '#numberinputeval' ).val() }, function(){ });
+      });
+  }
+});
+</script>

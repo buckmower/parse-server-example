@@ -1,0 +1,30 @@
+<% if(voteoreval == "vote") { 
+    var takebackvotetext = "All Allowed Votes Already Cast";
+    var takebackvotebuttontext = "Take Back Vote";
+%>
+    <h2><%= takebackvotetext %></h2><br>
+    <ul style="list-style-type: none; font-size: 18pt;">
+        <% for(var i=0; i < recordofuservotescastinelection.length; i++) {
+        var recorditem = recordofuservotescastinelection[i];
+        var pagenameofrecorditem = recorditem['pageName'];
+        var nominationobjectidofrecorditem = recorditem['nominationObjectID'];
+        var votesofrecorditem = recorditem['votes'];
+        %>
+        <li><a href="/sphere/<%= sphereobjectid %>/election/<%= electionobjectid %>/nomination/<%= nominationobjectidofrecorditem %>"><%= pagenameofrecorditem %></a><span> - <%= votesofrecorditem %></span></li>
+        <% } %>
+    </ul>
+<% if(votealreadycast === true) { %>
+    <button id="takevotebackbutton" class='btn btn-lg btn-danger'><%= takebackvotebuttontext %></button><br></p>
+<% } %>
+<%
+} else if(voteoreval == "evaluation") {
+    var takebackvotetext = "You have already evaluated "+nominationname;
+    var takebackvotebuttontext = "Take Back Evaluation";
+%>
+<h2><%= takebackvotetext %></h2><br><button id="takevotebackbutton" class='btn btn-lg btn-danger'><%= takebackvotebuttontext %></button><br></p>
+<% } else if(voteoreval == "allocation") {
+    var takebackvotetext = "All Resources Allocated";
+    var takebackvotebuttontext = "See Votes Record";
+%>
+<h2><%= takebackvotetext %></h2><br><a href="/votes" class='btn btn-lg btn-default'><%= takebackvotebuttontext %></a><br></p>
+<% } %>

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+   <!--[if lt IE 7]> <html class="ie ie6 lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+   <!--[if IE 7]>    <html class="ie ie7 lt-ie9 lt-ie8"        lang="en"> <![endif]-->
+   <!--[if IE 8]>    <html class="ie ie8 lt-ie9"               lang="en"> <![endif]-->
+   <!--[if IE 9]>    <html class="ie ie9"                      lang="en"> <![endif]-->
+   <!--[if !IE]><!-->
+   <html lang="en" class="no-ie">
+   <!--<![endif]-->
+    
+   <head>
+      <!-- Meta-->
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+      <meta name="description" content="Edit sphere settings.">
+      <meta name="keywords" content="vote, election, group, sphere, nominate, decide">
+      <meta name="author" content="William Buckley Mower">
+      <title>PopRuler | Spheres</title>
+      <link rel="icon" type="img/png" href="../../../assets/poprulerIcon.png">
+      <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+      <!--[if lt IE 9]><script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script><script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script><![endif]-->
+      <!-- Bootstrap CSS-->
+      <link rel="stylesheet" href="../../../admin/app/css/bootstrap.css">
+      <!-- Vendor CSS-->
+      <link rel="stylesheet" href="../../../admin/app/vendor/fontawesome/css/font-awesome.min.css">
+      <!-- START Page Custom CSS-->
+      <!-- END Page Custom CSS-->
+      <!-- App CSS-->
+      <link rel="stylesheet" href="../../../admin/app/css/app.css">
+      <!-- JavaScript Files -->
+      <!-- JQuery -->
+      <script src="../../../admin/app/vendor/jquery/jquery.min.js"></script>
+      <script>
+      $(document).ready(function(){
+          $('#editsphereModal').modal('show');
+          $('#editsphereModal').on('hide.bs.modal', function (e) {
+              window.location.assign("/spheres");
+          });
+          if(<%= isadmin %> == false) {
+              $("#editsphereForm").hide();
+              $("#addAdminsButton").hide();
+          }
+      });
+      </script>
+   </head>
+<body class="">
+   <div id="fb-root"></div>
+   <div class="modal fade" id="editsphereModal" tabindex="-1" role="dialog" aria-labelledby="editsphereModal" aria-hidden="true">
+       <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <a type="button" class="close" data-dismiss="modal" href="/spheres"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></a>
+              <h4 class="modal-title">Sphere Settings</h4>
+            </div>
+            <div class="modal-body">
+               <form method="POST" action="/spheres/editsphere" id="editsphereForm">
+                <div class="radio-inline">
+                  <label>
+                    <input type="radio" name="spherePrivacy" id="spherePrivacyOpenInput" value="open" <%= joinselectedpublic %>>
+                    Membership is Open to Everyone
+                  </label>
+                </div>
+                <div class="radio-inline">
+                  <label>
+                    <input type="radio" name="spherePrivacy" id="spherePrivacyClosedInput" value="closed" <%= joinselectedprivate %>>
+                    Membership is Invite Only
+                  </label>
+                </div>
+                <br>
+                <div class="radio-inline">
+                  <label>
+                    <input type="radio" name="sphereElectionCreationOptions" id="sphereElectionCreationOpenInput" value="open" <%= electioncreationoptionsselectedpublic %>>
+                    All Members Can Create Elections
+                  </label>
+                </div>
+                <div class="radio-inline">
+                  <label>
+                    <input type="radio" name="sphereElectionCreationOptions" id="sphereElectionCreationClosedInput" value="closed" <%= electioncreationoptionsselectedprivate %>>
+                    Only Admins Can Create Elections
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label for="newsphereNameInput">Sphere Name</label>
+                  <input type="text" class="form-control" name="sphereName" id="sphereNameInput" placeholder="Enter New Sphere Name" value="<%= spherename %>">
+                </div>
+                <div class="form-group">
+                  <label for="newsphereDescriptionInput">Sphere Description</label>
+                  <textarea class="form-control" name="sphereDescription" id="sphereDescriptionInput"><%= spheredescription %></textarea>
+                </div>
+                <div class="pull-left">
+                    <div class="form-group">
+                      <input type="hidden" name="sphereObjectID" id="sphereObjectIDInput" value="<%= sphereobjectid %>">
+                      <button type="submit" name="submitNewsphere" class="btn btn-default">Submit Edits</button>
+                    </div>
+                </div>
+              </form>
+              <div class="pull-right">
+                  <a class="btn btn-md btn-default" id="addAdminsButton" href="/spheres/editadmins/<%= sphereobjectid %>">Manage Admins</a>
+              </div>
+              <div class="clearfix"></div>
+           </div>
+           <div class="modal-footer">
+               <div class="pull-left">
+               <form method="POST" action="/spheres/leavesphere">
+                    <input type="hidden" name="sphereObjectID" value="<%= sphereobjectid %>">
+                    <input type="submit" value="Leave" class="btn btn-md btn-danger">
+               </form>
+               </div>
+              <a type="button" class="btn btn-default pull-right" data-dismiss="modal" href="/spheres">Close</a>
+              <div class="clearfix"></div>
+           </div>
+       </div><!-- /.modal-content -->
+     </div><!-- /.modal-dialog -->
+   </div><!-- /.modal -->
+   <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModal" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title">Settings</h4>
+            </div>
+            <div class="modal-body">
+              <p><a class="btn btn-danger btn-lg" href="/deactivate">Deactivate Your Account</a></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+      <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModal" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title">Search for A Sphere</h4>
+            </div>
+            <div class="modal-body">
+               <div id="sphereSearch">
+                 <form role="search" class="navbar-form">
+                    <div class="input-sphere">
+                       <input type="text" id="sphereNameInput" placeholder="Start typing to search..." class="form-control">
+                    </div>
+                 </form>
+                 <div class="hidden" id="suggestionsFrame" style="display: inline-block;">
+                   <button id="dismissSuggestionsButton" class="close"><span>&times;</span></button>
+                      <div id="suggestion" style="display: inline-block;">
+                      </div>
+                 </div>
+               </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+      <div class="modal fade" id="createsphereModal" tabindex="-1" role="dialog" aria-labelledby="createsphereModal" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title">Create A New Sphere</h4>
+            </div>
+            <div class="modal-body">
+              <form method="POST" action="/spheres/create">
+                <div class="radio-inline">
+                  <label>
+                    <input type="radio" name="newspherePrivacy" id="optionsRadios1" value="open" checked>
+                    Membership is Open to Everyone
+                  </label>
+                </div>
+                <div class="radio-inline">
+                  <label>
+                    <input type="radio" name="newspherePrivacy" id="optionsRadios2" value="closed">
+                    Membership is Invite Only
+                  </label>
+                </div>
+                <br>
+                <div class="radio-inline">
+                  <label>
+                    <input type="radio" name="newsphereElectionCreationOptions" id="optionsRadios3" value="open" checked>
+                    All Members Can Create Elections
+                  </label>
+                </div>
+                <div class="radio-inline">
+                  <label>
+                    <input type="radio" name="newsphereElectionCreationOptions" id="optionsRadios4" value="closed">
+                    Only Admins Can Create Elections
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label for="newsphereNameInput">New Sphere Name</label>
+                  <input type="text" class="form-control" name="newsphereName" id="newsphereNameInput" placeholder="Enter New Sphere Name">
+                </div>
+                <div class="form-group">
+                  <label for="newsphereDescriptionInput">New Sphere Description</label>
+                  <textarea class="form-control" name="newsphereDescription" id="newsphereDescriptionInput">Sphere Description...</textarea>
+                </div>
+                <div class="form-group">
+                  <button type="submit" name="submitNewsphere" class="btn btn-default">Create Sphere</button>
+                </div>
+              </form>
+           </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+   <!-- START Main wrapper-->
+      <section class="wrapper">
+         <!-- START Top Navbar-->
+         <nav role="navigation" class="navbar navbar-default navbar-top navbar-fixed-top">
+            <!-- START navbar header-->
+            <div class="navbar-header">
+               <a href="#" class="navbar-brand">
+                  <div class="brand-logo">popruler</div>
+                  <div class="brand-logo-collapsed">pop<br>ruler</div>
+               </a>
+            </div>
+            <!-- END navbar header-->
+            <!-- START Nav wrapper-->
+            <div class="nav-wrapper">
+               <!-- START Left navbar-->
+               <ul class="nav navbar-nav">
+                  <li>
+                     <a href="#" data-toggle="aside">
+                        <em class="fa fa-align-left"></em>
+                     </a>
+                  </li>
+                  <!-- START Search button-->
+                    <li>
+                       <a href="#" data-target="#searchModal" data-toggle="modal">
+                          <em class="fa fa-search"></em>
+                       </a>
+                    </li>
+                  <!-- END Seach menu-->
+               </ul>
+               <!-- END Left navbar-->
+               <!-- START Right Navbar-->
+               <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                           <a href="javascript:void(0);" data-toggle="dropdown" data-play="bounceIn" class="dropdown-toggle" aria-expanded="false">
+                              <em class="fa fa-user"></em>
+                           </a>
+                           <!-- START Dropdown menu-->
+                           <ul class="dropdown-menu" style="">
+                              <li style="padding: 20px 10px;"><a href="" data-target="#settingsModal" data-toggle="modal">
+                                 <em class="fa fa-cog text-muted"></em>Settings</a>
+                              </li>
+                              <li style="padding: 20px 10px;"><a href="/logout">
+                                 <em class="fa fa-sign-out text-muted"></em>Logout</a>
+                              </li>
+                           </ul>
+                           <!-- END Dropdown menu-->
+                        </li>
+                  <!-- END Alert menu-->
+               </ul>
+               <!-- END Right Navbar-->
+            </div>
+            <!-- END Nav wrapper-->
+         </nav>
+         <aside class="aside">
+         <!-- START Sidebar (left)-->
+         <nav class="sidebar" style="overflow: auto;">
+            <ul class="nav">
+               <!-- START user info-->
+               <li>
+                  <div class="item user-block" id="userProfile">
+                     <!-- User picture-->
+                     <div class="user-block-picture">
+                        <img src="<%= userprofileimageurl %>" alt="<%= username %>" width="60" height="60" class="img-thumbnail img-circle">
+                     </div>
+                     <!-- Name and Role-->
+                     <div class="user-block-info">
+                        <span class="user-block-name"><%= username %></span>
+                     </div>
+                  </div>
+               </li>
+               <!-- END user info-->
+               <!-- START Menu-->
+               <li class="">
+                  <a href="/spheres" title="spheres">
+                     <em class="fa fa-flag"></em>
+                     <div class="label label-primary pull-right"><%= numberofuserspheres %></div>
+                     <span class="item-text" style="padding-right: 15px;">Spheres</span>
+                  </a>
+               </li>
+               <li class="">
+                  <a href="/votes" title="votes">
+                     <em class="fa fa-star"></em>
+                     <div class="label label-primary pull-right"><%= numberofuservotescast %></div>
+                     <span class="item-text" style="padding-right: 15px;">Votes</span>
+                  </a>
+               </li>
+               <li class="">
+                  <a href="/admin" title="admin">
+                     <em class="fa fa-lock"></em>
+                     <div class="label label-primary pull-right"><%= numberofadminactionitems %></div>
+                     <span class="item-text" style="padding-right: 15px;">Admin</span>
+                  </a>
+               </li>
+               <li class="">
+                  <a href="/decisions" title="decisions">
+                     <em class="fa fa-compass"></em>
+                     <div class="label label-primary pull-right"><%= numberofdecisions %></div>
+                     <span class="item-text" style="padding-right: 15px;">Decisions</span>
+                  </a>
+               </li>
+               <!-- END Menu-->
+               <!-- Sidebar footer -->
+               <li class="nav-footer">
+                  <div class="nav-footer-divider"></div>
+                  <!-- START button sphere-->
+                  <div class="btn-sphere text-center">
+                     <button data-toggle="modal" data-target="#settingsModal" type="button" data-toggle="tooltip" data-title="Settings" class="btn btn-link">
+                        <em class="fa fa-cog text-muted"></em>
+                     </button>
+                     <a href="/logout" type="button" data-toggle="tooltip" data-title="Logout" class="btn btn-link">
+                        <em class="fa fa-sign-out text-muted"></em>
+                     </a>
+                  </div>
+                  <!-- END button sphere-->
+               </li>
+            </ul>
+         </nav>
+         <!-- END Sidebar (left)-->
+      </aside>
+      <!-- End aside-->
+      <!-- START Main section-->
+      <section>
+         <!-- START Page content-->
+         <section class="main-content" style="min-height: 600px;">
+            <div>
+            <h1 style="display: inline-block;">My Spheres</h1>
+            <span class="badge">
+               <a style="cursor: pointer;" data-toggle="modal" data-target="#createsphereModal">Create A New Sphere</a>
+            </span>
+            </div>
+            <div class="row-masonry row-masonry-xl-6 row-masonry-lg-4 row-masonry-md-3 row-masonry-sm-2">
+               <% if((typeof userspheres == "undefined") || (userspheres == "") || (userspheres == null) || (userspheres === 0) || (userspheres === "0")) {
+               } else {
+               %>
+               <% for(var i =0; i < userspheres.length; i++) { 
+                     var usersphere = userspheres[i];
+               %>
+                  <div class="col-masonry">
+                     <div class="box-placeholder m0">
+                        <div>
+                            <p class="text-center text-muted">
+                               <strong><a href="/sphere/<%= usersphere['sphereObjectID'] %>"><%= usersphere['sphereName'] %></a></strong>
+                            </p>
+                        </div>
+                        <a style="cursor: pointer; float: right;" class="editsphereLaunchButton" href="/spheres/edit/<%= usersphere['sphereObjectID'] %>" data-target="#editsphereModal">edit</a>
+                     </div>
+                  </div>
+               <% } %>
+              <% } %>
+              </div>
+              <% if(numberofuserspheres > 20) { %>
+              <nav>
+              <ul class="pagination">
+                <li class="<%= previousdisabled %>">
+                  <a href="/spheres?page=<%= previouspage %>" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+               <% for(var i=0; i < numberofchunksofuserspheres; i++) { 
+                   if(i == currentpage){
+                       var active = "active";
+                   } else {
+                       var active = "";
+                   }
+               %>
+                        <li class="<%= active %>"><a href="/spheres?pg=<%= i %>"><%= i + 1 %></a></li>
+               <% } %>
+               <li class="<%= nextdisabled %>">
+                  <a href="/spheres?page=<%= nextpage %>" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+            <% } %>
+         </section>
+         <!-- END Page content -->
+      </section>
+      <!-- END Main section -->
+   </section>
+   <!-- END Main wrapper -->
+   <!-- START Scripts -->
+   <script>
+      $(document).ready(function() {
+         $("#inviteFriends").click(function() {
+            window.top.location.href = 'https://www.facebook.com/dialog/apprequests?app_id=487409348027542&message=Have%20You%20Checked%20Your%20Stats%20Recently%3F&redirect_uri=https://www.popruler.com/profile';
+         });
+         $("#userProfile").click(function() {
+            window.location.href = '/profile';
+         });
+      });
+   </script>
+   <!-- Main vendor Scripts -->
+   <script src="../../../admin/app/vendor/bootstrap/js/bootstrap.min.js"></script>
+   <!-- App Main-->
+   <script src="../../../admin/app/js/profile.js"></script>
+   </body>
+</html>

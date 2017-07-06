@@ -1,0 +1,65 @@
+<script>
+$(document).ready(function(){
+    var signMemberUp = function(){
+        var name = $("#signupName").val();
+        var email = $("#signupEmail").val();
+        var password = $("#signupPassword").val();
+        if((name !== "") && (email !== "") && (password !== "")) {
+            $.post("/signup", {name: name, email: email, password: password}, function(data){
+              if(data == "alreadysignedup"){
+                window.location.assign("/home?message=alreadysignedup");
+              } else {
+                window.location.assign("/spheres?state=initiallogin");
+              }
+            });
+        } else {
+            $("#signuperrordiv").removeClass("hidden");
+            $("#signuperrors").removeClass("hidden");
+            if(name == "") {
+                $("#signuperrorlistitemnoname").removeClass("hidden").html("<li>Please Provide A Name For Yourself!</li>");
+            }
+            if(email == "") {
+                $("#signuperrorlistitemnoemail").removeClass("hidden").html("<li>Please Provide An Email Address For Yourself!</li>");
+            }
+            if(password == "") {
+                $("#signuperrorlistitemnopassword").removeClass("hidden").html("<li>Please Provide A Password For Yourself!</li>");
+            }
+        }
+    };
+    var logMemberIn = function(){
+          var email = $("#loginEmail").val();
+          var password = $("#loginPassword").val();
+          if((email !== "") && (password !== "")){
+             $.post("/emaillogin", {email: email, password: password}, function(data){
+              if(data === false) {
+                window.location.assign("/?er=incorrectlogin");
+              } else {
+                window.location.assign("/spheres?state=initiallogin");
+              }
+             });
+          }
+      };
+    $("#submitSignup").click(function(){signMemberUp()});
+    $("#submitLogin").click(function(){logMemberIn()});
+    $("#submitRecoverPassword").click(function(){
+       $("#recoverPasswordModal").modal("hide");
+       var resetemail = $("#resetemail").val();
+       $.post("/requestpasswordreset", {resetemail: resetemail}, function(){
+           window.location.assign("/requestedpasswordreset?success=1&email="+resetemail);
+       });
+    });
+    $(window).keydown(function(){
+      if(event.keyCode == 13) {
+        event.preventDefault();
+        var isLoginModalHidden = $("#loginModal").attr("aria-hidden");
+        var isSignupModalHidden = $("#signupModal").attr("aria-hidden");
+        if(isLoginModalHidden == "false"){
+          logMemberIn();
+        }
+        if(isSignupModalHidden == "false"){
+          signMemberUp();
+        }
+      }
+    });
+});
+</script>

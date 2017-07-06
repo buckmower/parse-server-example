@@ -1,0 +1,99 @@
+/* =================== */
+/* === ANIMATE.CSS === */
+.withAnimation .animated {
+  opacity: 0;
+  filter: alpha(opacity=0);
+  /* For IE8 and earlier */
+}
+.withAnimation .activate {
+  opacity: 1;
+  filter: alpha(opacity=100);
+  /* For IE8 and earlier */
+}
+.bg2.text-center.section.small.border:hover {
+  -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+  background: #eee;
+}
+/* *******************
+   TIME CIRCLE COUNTER
+******************* */
+.countdown-container {
+  padding: auto auto;
+  position: relative;
+  margin: auto auto;
+}
+.clock-item .inner {
+  height: 0px;
+  padding-bottom: 100%;
+  position: relative;
+  width: 100%;
+}
+.clock-item .h4 {
+  margin-top: 20px;
+  margin-bottom: 0;
+  display: block;
+}
+.clock-canvas {
+  background-color: rgba(255, 255, 255, 0.1);
+  -webkit-border-top-right-radius: 50%;
+  -webkit-border-bottom-right-radius: 50%;
+  -webkit-border-bottom-left-radius: 50%;
+  -webkit-border-top-left-radius: 50%;
+  -moz-border-radius-topright: 50%;
+  -moz-border-radius-bottomright: 50%;
+  -moz-border-radius-bottomleft: 50%;
+  -moz-border-radius-topleft: 50%;
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;
+  border-bottom-left-radius: 50%;
+  border-top-left-radius: 50%;
+  -moz-background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  height: 0px;
+  padding-bottom: 100%;
+}
+.clock-canvas:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  -webkit-border-top-right-radius: 50%;
+  -webkit-border-bottom-right-radius: 50%;
+  -webkit-border-bottom-left-radius: 50%;
+  -webkit-border-top-left-radius: 50%;
+  -moz-border-radius-topright: 50%;
+  -moz-border-radius-bottomright: 50%;
+  -moz-border-radius-bottomleft: 50%;
+  -moz-border-radius-topleft: 50%;
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;
+  border-bottom-left-radius: 50%;
+  border-top-left-radius: 50%;
+  -moz-background-clip: padding-box;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 5px solid #eaebec;
+}
+.text {
+  margin-top: -5px;
+  position: absolute;
+  top: 50%;
+  text-align: center;
+  width: 100%;
+}
+.text .val {
+  font-size: 15px;
+  font-weight: 300;
+  margin-bottom: 0;
+  line-height: 1;
+}
+@media (max-width: 991px) {
+  .clock-item {
+    margin-bottom: 30px;
+  }
+}

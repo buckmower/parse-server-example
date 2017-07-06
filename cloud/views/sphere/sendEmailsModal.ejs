@@ -1,0 +1,105 @@
+<% if(sentemaildetails !== false) { %>
+<div class="modal fade" id="sentEmailModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Sent Email</h4>
+      </div>
+      <div class="modal-body">
+      <% if(sentemaildetails !== false) { %>
+        Email To: <%= sentemaildetails[0]['listtype'] %> <sup><a href="javascript:void(0)" data-dismiss="modal" data-toggle="modal" data-target="#showRecipientsModal">show</a></sup>
+        <br>
+        Email From: 
+        <span><a href="https://www.facebook.com/<%= sentemaildetails[0]['fromfMemberID'] %>"><%= sentemaildetails[0]['fromname'] %></a></span>
+        <br>
+        Sent On:
+        <span class="emailsentondate" data-unixdate="<%= sentemaildetails[0]['datesent'] %>"></span>
+        <br>
+        <h2><%= sentemaildetails[0]['subject'] %></h2>
+        <p><%= sentemaildetails[0]['message'] %></p>
+        <% } %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" data-target="#showAllEmails" data-toggle="modal">All Sent Emails</button>
+        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="modal fade" id="showRecipientsModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Recipients</h4>
+      </div>
+      <div class="modal-body">
+       <% for(var i=0; i < sentemaildetails[0]['recipients'].length; i++) { 
+         var recipient = sentemaildetails[0]['recipients'][i];
+       %>
+           <span> <%= recipient['email'] %></span>,
+       <% } %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-toggle="modal" data-target="#sentEmailModal" class="btn btn-default pull-left" data-dismiss="modal">Sent Email</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<% } %>
+<% if((sentemailsdetails !== false) && (isadmin)) { %>
+<div class="modal fade" id="showAllEmails">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Sent Emails</h4>
+      </div>
+      <div class="modal-body">
+        <% if(sentemailsdetails !== false) { %>
+          <div class="list-group">
+          <%   _.each(sentemailsdetails, function(sentemaildetails){
+          %>
+            <a href="/sphere/<%= sphereobjectid %>?success=emailsent&sentemailid=<%= sentemaildetails['sentemailid'] %>" class="list-group-item">
+              <h4 class="list-group-item-heading"><%= sentemaildetails['subjectpreview'] %></h4>
+              <p class="list-group-item-text"><%= sentemaildetails['messagepreview'] %></p>
+            </a>
+        <% }); %>
+        </div>
+        <% if(numberofsentemailsdetails['pages'] > 1) { %>
+          <nav>
+          <ul class="pagination">
+            <li class="<%= numberofsentemailsdetails['previousdisabled'] %>">
+              <a href="/sphere/<%= sphereobjectid %>?success=sentemails&pageofemails=<%= numberofsentemailsdetails['previouspage'] %>" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+           <% for(var i=0; i < numberofsentemailsdetails['pages']; i++) { 
+               if(i == (numberofsentemailsdetails['currentpage'] - 1)){
+                   var active = "active";
+               } else {
+                   var active = "";
+               }
+           %>
+                    <li class="<%= active %>"><a href="/sphere/<%= sphereobjectid %>?success=sentemails&pageofemails=<%= i + 1 %>"><%= i + 1 %></a></li>
+           <% } %>
+           <li class="<%= numberofsentemailsdetails['nextdisabled'] %>">
+              <a href="/sphere/<%= sphereobjectid %>?success=sentemails&pageofemails=<%= numberofsentemailsdetails['nextpage'] %>" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <% } 
+      } %>
+      </div>
+      <div class="modal-footer">
+        <a href="/sphere/<%= sphereobjectid %>/members?s=sendemails" class="btn btn-default pull-left">Send Emails</a>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<% } %>

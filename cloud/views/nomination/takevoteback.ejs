@@ -1,0 +1,15 @@
+<script>
+$(document).ready(function(){
+  if(<%= votealreadycast %>) {
+  $("#takevotebackbutton").one("click", function() {
+    $.post("/sphere/<%= sphereobjectid %>/election/<%= electionobjectid %>/nomination/<%= nominationobjectid %>/takevoteback", 
+        { },
+        function()
+            { 
+                
+            }
+      );
+  });
+  } 
+});
+</script>

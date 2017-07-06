@@ -1,0 +1,35 @@
+<script>
+$(document).ready(function(){
+    $("#submitSignup").click(function(){
+        var name = $("#signupName").val();
+        var email = $("#signupEmail").val();
+        var password = $("#signupPassword").val();
+        if((name !== "") && (email !== "") && (password !== "")) {
+            $.post("/signup", {name: name, email: email, password: password}, function(){
+                window.location.assign("/join/sphere/<%= sphereobjectid %>");
+            });
+        } else {
+            $("#signuperrordiv").removeClass("hidden");
+            $("#signuperrors").removeClass("hidden");
+            if(name == "") {
+                $("#signuperrorlistitemnoname").removeClass("hidden").html("<li>Please Provide A Name For Yourself!</li>");
+            }
+            if(email == "") {
+                $("#signuperrorlistitemnoemail").removeClass("hidden").html("<li>Please Provide An Email Address For Yourself!</li>");
+            }
+            if(password == "") {
+                $("#signuperrorlistitemnopassword").removeClass("hidden").html("<li>Please Provide A Password For Yourself!</li>");
+            }
+        }
+    });
+    $("#submitLogin").click(function(){
+       var email = $("#loginEmail").val();
+       var password = $("#loginPassword").val();
+       if((email !== "") && (password !== "")){
+           $.post("/emaillogin", {email: email, password: password}, function(){
+               window.location.assign("/join/sphere/<%= sphereobjectid %>");
+           });
+       }
+    });
+});
+</script>

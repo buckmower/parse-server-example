@@ -1,0 +1,22 @@
+{
+  "global": {
+    "parseVersion": "1.3.2"
+  },
+  "applications": {
+    "_default": {
+      "link": "represent-xyz-stage"
+    },
+    "represent-xyz": {
+      "applicationId": "",
+      "masterKey": ""
+    },
+    "represent-xyz-stage": {
+      "applicationId": "",
+      "masterKey": ""
+    },
+    "represent-xyz-stage2": {
+      "applicationId": "",
+      "masterKey": ""
+    }
+  }
+}

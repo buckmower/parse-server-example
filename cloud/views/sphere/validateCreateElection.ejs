@@ -1,0 +1,71 @@
+<script>
+$(document).ready(function(){
+    function checktomakesureallcomplete() {
+                 var electionEndDateTime = $('input[name="electionEndDateTime"]').val(); 
+                 var electionName = $("#electionNameInput").val();
+                 var electionType = $("#createElectionModal").find('input[name="electionType"]:checked').val();
+                 var limitNominees = $('#switchnomineelimitedinput:checked').val() || false;
+                 var commentsOnElectionAllowed = $('#switchcommentsonelectionallowedinput:checked').val() || false;
+                 if((commentsOnElectionAllowed == "on") || (commentsOnElectionAllowed == "true") || (commentsOnElectionAllowed == true)){
+                  var allowedCommentsOnElection = true;
+                 }
+                 var nominationsallowed = $("#createElectionModal").find('input[name="nominationsallowed"]').val();
+                 if((electionEndDateTime == "") || (electionName == "") || (nominationsallowed <= 0)) {
+                     if(electionEndDateTime == "") {
+                       $("#listoferrors").append("<li>Please Make Sure The Election Has A Set End Date And Time</li>");
+                     }
+                     if(electionName == "") {
+                       $("#listoferrors").append("<li>Please Make Sure The Election Has A Name</li>");
+                     }
+                     if(nominationsallowed <= 0){
+                         $("#listoferrors").append("<li>Please Make Sure The Election Has A Set Number Of Nominations Allowed</li>");
+                     }
+                    $("#electionCreationErrors").removeClass("hidden");
+                    return false;
+                 } else {
+                      var endDateInput = $('input[name="electionEndDateTime"]');
+                      var dateSet = $("#createElectionModal").find(endDateInput).val();
+                      var dateTime = moment(dateSet, "MM-DD-YYYY HH:mm A");
+                      //var dateTimeUTC = moment.utc(dateTime);
+                      var dateTimeFormatted = dateTime.toISOString();
+                      
+                      var electionName = $("#electionNameInput").val();
+                      var electionDescription = $("#electionDescription").val();
+                      var voteOrEval = $('input[name="newVoteOrEval"]:checked').val();
+                      var electionVotesAllowed = $('input[name="newElectionVotesAllowed"]').val();
+                      var totalBudget = $('input[name="newBudget"]').val();
+                      var rangeDefinition = $('select[name="newRangeDefinition"] option:selected').val();
+                      
+                      $("#createElectionModal").find(endDateInput).val(dateTimeFormatted);
+                      $.post("/sphere/<%= sphereobjectid %>/create", 
+                       {'electionType': electionType,
+                       'nomineeLimitedToMembers': limitNominees,
+                       'nominationsAllowed': nominationsallowed,
+                       'electionEndDateTime': dateTimeFormatted,
+                       'electionName': electionName,
+                       'electionDescription': electionDescription,
+                       'newVoteOrEval': voteOrEval,
+                       'newElectionVotesAllowed': electionVotesAllowed,
+                       'newRangeDefinition': rangeDefinition,
+                       'newTotalBudget':totalBudget,
+                       'allowCommentsOnElection':allowedCommentsOnElection
+                       }, function(){
+                          location.reload(true);
+                       });
+                       return [];
+                 }
+             }
+     $(window).keydown(function(event){
+         if(event.keyCode == 13) {
+          //event.preventDefault();
+          //checktomakesureallcomplete();
+        }
+      });
+     $("#submitNewElectionButton").click(function(event){
+          checktomakesureallcomplete();
+     });
+  $("#electionCreationErrors").click(function(){
+    $(this).addClass("hidden");
+  });
+});
+</script>
